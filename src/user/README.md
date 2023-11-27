@@ -1,0 +1,10 @@
+接口路径	请求方式	描述
+/user/login	POST	普通用户登录
+/user/register	POST	普通用户注册
+/user/update	POST	普通用户个人信息修改
+/user/update_password	POST	普通用户修改密码
+/user/admin/login	POST	管理员登录
+/user/admin/update_password	POST	管理员修改密码
+/user/admin/update	POST	管理员个人信息修改
+/user/list	GET	用户列表
+/user/freeze	GET	冻结用户
