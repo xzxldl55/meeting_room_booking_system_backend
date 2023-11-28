@@ -348,11 +348,12 @@ export class UserService {
     nickName = '',
   ) {
     try {
+      const conditions: Record<string, any> = {};
+      username && (conditions.username = Like(`%${username}%`));
+      nickName && (conditions.nickName = Like(`%${nickName}%`));
+
       const [list, total] = await this.userRepository.findAndCount({
-        where: {
-          username: Like(`%${username}%`),
-          nickName: Like(`%${nickName}%`),
-        },
+        where: conditions,
         skip: (pageIndex - 1) * pageSize,
         take: pageSize,
         select: [
