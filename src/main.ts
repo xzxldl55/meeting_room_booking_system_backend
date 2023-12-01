@@ -24,6 +24,9 @@ async function bootstrap() {
   // 全局开启异常处理过滤器，标准化异常处理
   app.useGlobalFilters(new CustomExceptionFilter());
 
+  // 开启跨域支持
+  app.enableCors();
+
   // 开启 swagger 文档服务
   const config = new DocumentBuilder()
     .setTitle('会议室预定系统')

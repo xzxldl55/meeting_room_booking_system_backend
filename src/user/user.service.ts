@@ -129,7 +129,7 @@ export class UserService {
       return '发送成功';
     } catch (e) {
       this.logger.error(e, UserService);
-      return '发送验证码失败';
+      throw new HttpException('发送验证码失败', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -179,6 +179,7 @@ export class UserService {
         username: vo.userInfo.username,
         roles: vo.userInfo.roles,
         permissions: vo.userInfo.permissions,
+        email: vo.userInfo.email,
       },
       {
         expiresIn:
@@ -214,6 +215,7 @@ export class UserService {
       const jwtData: JwtUserData = {
         userId: user.id,
         username: user.username,
+        email: user.email,
         roles: user.roles.map((v) => v.name),
         permissions: user.roles.reduce((arr, item) => {
           item.permissions.forEach((permission) => {
@@ -264,6 +266,7 @@ export class UserService {
       detailVo.headPic = user.headPic;
       detailVo.createTime = user.createTime;
       detailVo.isFrozen = user.isFrozen;
+      detailVo.email = user.email;
 
       return detailVo;
     } catch (e) {

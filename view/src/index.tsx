@@ -3,21 +3,28 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {
+  RouteObject,
   RouterProvider,
   createBrowserRouter,
-  Link,
-  Outlet,
 } from 'react-router-dom';
-import { ErrorPage } from './views/ErrorPage';
-import { Login } from './views/Login';
-import { Register } from './views/Register';
-import { UpdatePassword } from './views/UpdatePassword';
+import { ErrorPage } from './views/error/ErrorPage';
+import { Login } from './views/login/Login';
+import { Register } from './views/register/Register';
+import { UpdatePassword } from './views/update_password/UpdatePassword';
+import { UserInfoUpdate } from './views/user_info/UserInfoUpdate';
+import { DefaultLayout } from './views/default_layout/DefaultLayout';
 
-const routes = [
+const routes: RouteObject[] = [
   {
     path: '/',
-    element: <div>index</div>,
+    element: <DefaultLayout />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'user_info_update',
+        element: <UserInfoUpdate />,
+      },
+    ],
   },
   {
     path: 'login',
