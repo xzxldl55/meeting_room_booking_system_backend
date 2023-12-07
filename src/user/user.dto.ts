@@ -85,6 +85,14 @@ export class UpdateUserPasswordDto {
 
 export class UpdateUserDto {
   headPic: string;
+
+  @IsNotEmpty({
+    message: '昵称不能为空',
+  })
   nickName: string;
-  email: string;
+
+  @IsNotEmpty({
+    message: '验证码不能为空',
+  })
+  captcha: string;
 }

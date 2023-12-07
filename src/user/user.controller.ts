@@ -72,9 +72,22 @@ export class UserController {
   @RequireLogin()
   async update(
     @GetUserParam('userId') userId: number,
+    @GetUserParam('email') email: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return await this.userService.update(userId, updateUserDto);
+    return await this.userService.update(userId, email, updateUserDto);
+  }
+
+  @Get('captcha/update_user')
+  @RequireLogin()
+  async updateUserCaptcha(@GetUserParam('email') email: string) {
+    return this.userService.captcha(
+      email,
+      'update_user_captcha_',
+      false,
+      '修改用户信息验证码',
+      (code) => `<h2>您的验证码是 ${code}</h2>`,
+    );
   }
 
   @Post(['update_password', 'admin/update_password'])

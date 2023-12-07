@@ -6,6 +6,11 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+axiosInstance.interceptors.request.use((config) => {
+  config.headers.Authorization =
+    'Bearer ' + localStorage.getItem('accessToken');
+  return config;
+});
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
@@ -60,4 +65,22 @@ export async function updatePasswordCaptcha(address: string) {
 
 export async function updatePassword(data: UpdatePasswordParam) {
   return await axiosInstance.post('/user/update_password', data);
+}
+
+export async function getUserInfo() {
+  return await axiosInstance.get('/user/info');
+}
+
+export async function updateUserCaptcha() {
+  return await axiosInstance.get('/user/captcha/update_user');
+}
+
+export interface UserInfo {
+  headPic: string;
+  nickName: string;
+  captcha: string;
+}
+
+export async function updateUserInfo(data: UserInfo) {
+  return await axiosInstance.post('/user/update', data);
 }

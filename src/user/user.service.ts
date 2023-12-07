@@ -24,7 +24,6 @@ import { LoginUserVo, UserDetailVo } from './user.vo';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtUserData } from './user.type';
-import { isEmail } from 'class-validator';
 
 @Injectable()
 export class UserService {
@@ -302,17 +301,21 @@ export class UserService {
     }
   }
 
-  async update(userId: number, { email, headPic, nickName }: UpdateUserDto) {
+  async update(
+    userId: number,
+    email: string,
+    { headPic, nickName, captcha }: UpdateUserDto,
+  ) {
+    const code = await this.redisService.get(`update_user_captcha_${email}`);
+    if (code !== captcha) {
+      throw new HttpException('验证码错误', HttpStatus.BAD_REQUEST);
+    }
+
     const foundUser = await this.userRepository.findOneBy({
       id: userId,
     });
 
-    if (email && !isEmail(email)) {
-      throw new HttpException('邮箱格式非法', HttpStatus.BAD_REQUEST);
-    }
-
     foundUser.headPic = headPic || foundUser.headPic;
-    foundUser.email = email || foundUser.email;
     foundUser.nickName = nickName || foundUser.nickName;
 
     try {
