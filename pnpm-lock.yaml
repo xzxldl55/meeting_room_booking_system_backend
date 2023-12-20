@@ -70,6 +70,9 @@ devDependencies:
   '@types/jest':
     specifier: ^29.5.2
     version: registry.npmmirror.com/@types/jest@29.5.8
+  '@types/multer':
+    specifier: ^1.4.11
+    version: registry.npmmirror.com/@types/multer@1.4.11
   '@types/node':
     specifier: ^20.3.1
     version: registry.npmmirror.com/@types/node@20.9.0
@@ -1686,6 +1689,14 @@ packages:
     resolution: {integrity: sha512-iJt33IQnVRkqeqC7PzBHPTC6fDlRNRW8vjrgqtScAhrmMwe8c4Eo7+fUGTa+XdWrpEgpyKWMYmi2dIwMAYRzPw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mime/-/mime-3.0.4.tgz}
     name: '@types/mime'
     version: 3.0.4
+    dev: true
+
+  registry.npmmirror.com/@types/multer@1.4.11:
+    resolution: {integrity: sha512-svK240gr6LVWvv3YGyhLlA+6LRRWA4mnGIU7RcNmgjBYFl6665wcXrRfxGp5tEPVHUNm5FMcmq7too9bxCwX/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/multer/-/multer-1.4.11.tgz}
+    name: '@types/multer'
+    version: 1.4.11
+    dependencies:
+      '@types/express': registry.npmmirror.com/@types/express@4.17.21
     dev: true
 
   registry.npmmirror.com/@types/node@20.9.0:

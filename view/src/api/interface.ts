@@ -1,10 +1,31 @@
 import { message } from 'antd';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+
+interface PendingTask {
+  config: AxiosRequestConfig;
+  resolve: Function;
+}
+
+// 用作刷新 token 后重新发起请求
+let refreshing = false;
+const queue: PendingTask[] = [];
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:9999',
   timeout: 10000,
 });
+
+const refreshToken = async () => {
+  const res = await axiosInstance.get('/user/refresh', {
+    params: {
+      refreshToken: localStorage.getItem('refreshToken'),
+    },
+  });
+  localStorage.setItem('refreshToken', res.data.refreshToken);
+  localStorage.setItem('accessToke ', res.data.accessToke);
+
+  return res;
+};
 
 axiosInstance.interceptors.request.use((config) => {
   config.headers.Authorization =
@@ -15,10 +36,47 @@ axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    message.error(error.response.data.message || '请求失败');
+  async (error) => {
+    if (!error.response) {
+      return Promise.reject(error);
+    }
+    let { data, config } = error.response;
 
-    return error.response;
+    if (refreshing) {
+
+      //  如果正在刷新 token，此时将请求塞入等待队列，等待 token 刷新后重放接口
+      //    这里返回一个新的 Promise，即等待原接口被重放后，才会将新 promise 置为 full field 状态，返回数据触发回调
+      return new Promise((resolve) => {
+        queue.push({ config, resolve });
+      });
+    }
+
+    // 非刷新 token 接口，且 code 401
+    if (data.code === 401 && !config.url.includes('/user/refresh')) {
+      refreshing = true;
+
+      // 刷新 token
+      const res = await refreshToken();
+
+      refreshing = false;
+
+      if (res.status === 200) {
+        // 刷新 token 后，重放接口
+        queue.forEach(({ config, resolve }) => {
+          resolve(axiosInstance(config));
+        });
+        return axiosInstance(config);
+      } else {
+        message.error(res.data);
+
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1000);
+      }
+    } else {
+      message.error(error.response.data.message || '请求失败');
+      return error.response;
+    }
   },
 );
 

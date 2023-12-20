@@ -1,11 +1,12 @@
 import { Button, Form, Input, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import './user_info_update.css';
 import { useNavigate } from 'react-router-dom';
 import { useCountDown } from '../hooks/useCountDown';
 import {
   UserInfo,
+  getUserInfo,
   updateUserCaptcha,
   updateUserInfo,
 } from '../../api/interface';
@@ -21,6 +22,24 @@ export function UserInfoUpdate() {
   const { startCountDown, disabledCaptchaBtn, captchaBtnCountDown } =
     useCountDown(10);
 
+  useEffect(() => {
+    async function query() {
+      const {
+        data: { data, code },
+      } = await getUserInfo();
+      console.log(data);
+
+      if (code !== 200) {
+        return message.error('请求用户数据失败！');
+      }
+
+      form.setFieldValue('nickName', data.nickName);
+      form.setFieldValue('headPic', data.headPic);
+      form.setFieldValue('email', data.email);
+    }
+    query();
+  }, []);
+
   const onFinish = useCallback(async (values: UserInfo) => {
     await form.validateFields();
     const res = await updateUserInfo(values);
@@ -29,6 +48,7 @@ export function UserInfoUpdate() {
     console.log(res);
     if (code === 200 || code === 201) {
       message.success(msg || '修改成功');
+      form.setFieldValue('captcha', '');
     }
   }, []);
 
@@ -67,6 +87,14 @@ export function UserInfoUpdate() {
           rules={[{ required: true, message: '请输入昵称!' }]}
         >
           <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="邮箱"
+          name="email"
+          rules={[{ required: true, message: '' }]}
+        >
+          <Input disabled={true} />
         </Form.Item>
 
         <Form.Item
