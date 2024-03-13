@@ -2,21 +2,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createBrowserRouter, Link, Outlet } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { Login } from './views/login/Login';
+import { Login } from './views/login/login';
+import { UserOutlined } from '@ant-design/icons';
+import './index.css';
+import { Menu } from './views/menu/menu';
+import { UserManage } from './views/user_manage/userManage';
 
-function Index() {
+export function Index() {
 	return (
-		<div>
-			index<Outlet></Outlet>
+		<div id="index-container">
+			<div className="header">
+				<h1>会议室预定系统-后管平台</h1>
+				<UserOutlined className="icon" />
+			</div>
+			<div className="body">
+				<Outlet></Outlet>
+			</div>
 		</div>
 	);
 }
 function ErrorPage() {
 	return <div>Error Page</div>;
-}
-
-function UserManage() {
-	return <div>user manage</div>;
 }
 
 const routes = [
@@ -26,8 +32,15 @@ const routes = [
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				path: 'user_manage',
-				element: <UserManage />,
+				path: '/',
+				element: <Menu></Menu>,
+				errorElement: <ErrorPage />,
+				children: [
+					{
+						path: 'user_manage',
+						element: <UserManage />,
+					},
+				],
 			},
 		],
 	},

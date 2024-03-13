@@ -1,0 +1,9 @@
+#userManage-container {
+  padding: 20px;
+}
+.userManage-form {
+  margin-bottom: 16px;
+}
+.content-area {
+  flex: 1;
+}

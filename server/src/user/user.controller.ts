@@ -120,6 +120,7 @@ export class UserController {
   }
 
   @Get('list')
+  @RequireLogin()
   async list(
     @Query('pageIndex', new ParseIntCnPipe({ key: 'pageIndex' }))
     pageIndex: number,
