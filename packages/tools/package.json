@@ -1,0 +1,19 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "print": "echo tools",
+    "build": "tsc -w"
+  },
+  "dependencies": {
+    "typescript": "^4.9.5",
+    "antd": "^5.11.5",
+    "axios": "^1.6.7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

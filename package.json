@@ -1,0 +1,11 @@
+{
+  "name": "meeting_room_booking_system_backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "pnpm -C ./packages/tools build & -C ./packages/frontend-admin start & pnpm -C./packages/frontend-user start & pnpm -C ./packages/server start:dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
