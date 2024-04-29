@@ -11,6 +11,10 @@ import { ModifyMenu } from './views/modify_menu/modifyMenu';
 import { InfoModify } from './views/info_modify/infoModify';
 import { PasswordModify } from './views/password_modify/passwordModify';
 import { locationTo } from 'tools';
+import { MeetingRoomManage } from './views/meeting_room_manage/meetingRoomManage';
+import { BookingManage } from './views/booking_manage/bookingManage';
+import { Statistics } from './views/statistics/statistics';
+import { MENU_PATH } from './const';
 
 export function Index() {
 	return (
@@ -44,21 +48,37 @@ const routes = [
 				errorElement: <ErrorPage />,
 				children: [
 					{
-						path: 'user_manage',
+						path: '/',
+						element: <MeetingRoomManage />
+					},
+					{
+						path: MENU_PATH.MEETING_ROOM_MANAGE,
+						element: <MeetingRoomManage />,
+					},
+					{
+						path: MENU_PATH.BOOKING_MANAGE,
+						element: <BookingManage />
+					},
+					{
+						path: MENU_PATH.STATISTICS,
+						element: <Statistics />
+					},
+					{
+						path: MENU_PATH.USER_MANAGE,
 						element: <UserManage />,
 					},
 				],
 			},
 			{
-				path: '/user',
+				path: MENU_PATH.USER,
 				element: <ModifyMenu></ModifyMenu>,
 				children: [
 					{
-						path: 'info_modify',
+						path: MENU_PATH.INFO_MODIFY,
 						element: <InfoModify />,
 					},
 					{
-						path: 'password_modify',
+						path: MENU_PATH.PASSWORD_MODIFY,
 						element: <PasswordModify />,
 					},
 				],
@@ -66,7 +86,7 @@ const routes = [
 		],
 	},
 	{
-		path: 'login',
+		path: MENU_PATH.LOGIN,
 		element: <Login />,
 	},
 ];
@@ -80,4 +100,3 @@ root.render(<RouterProvider router={router} />);
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-

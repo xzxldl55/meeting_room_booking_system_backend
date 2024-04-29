@@ -12,15 +12,11 @@ import {
 import { MeetingRoomService } from './meeting-room.service';
 import { CreateMeetingRoomDto } from './dto/create-meeting-room.dto';
 import { UpdateMeetingRoomDto } from './dto/update-meeting-room.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MeetingRoom } from './entities/meeting-room.entity';
-import { Repository } from 'typeorm';
+import { RequireLogin } from 'src/decorators';
 
 @Controller('meeting-room')
+@RequireLogin()
 export class MeetingRoomController {
-  @InjectRepository(MeetingRoom)
-  private repository: Repository<MeetingRoom>;
-
   constructor(private readonly meetingRoomService: MeetingRoomService) {}
 
   @Post('create')

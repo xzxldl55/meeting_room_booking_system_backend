@@ -24,6 +24,24 @@ const routes: RouteObject[] = [
         path: 'user_info_update',
         element: <UserInfoUpdate />,
       },
+      {
+        path: '/',
+        element: <Menu />,
+        children: [
+          {
+            path: '/',
+            element: <MeetingRoomList />
+          },
+          {
+            path: 'meeting_room_list',
+            element: <MeetingRoomList />
+          },
+          {
+            path: 'booking_history',
+            element: <BookingHistory />
+          }
+        ]
+      }
     ],
   },
   {

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateMeetingRoomDto } from './dto/create-meeting-room.dto';
 import { UpdateMeetingRoomDto } from './dto/update-meeting-room.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { MeetingRoom } from './entities/meeting-room.entity';
 
 @Injectable()
@@ -62,10 +62,10 @@ export class MeetingRoomService {
     const condition: Record<string, any> = {};
 
     if (name) {
-      condition.name = name;
+      condition.name = Like(`%${name}%`);
     }
     if (equipment) {
-      condition.equipment = equipment;
+      condition.equipment = Like(`%${equipment}%`);
     }
     if (capacity) {
       condition.capacity = capacity;

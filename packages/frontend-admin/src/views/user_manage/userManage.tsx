@@ -22,7 +22,7 @@ interface UserSearchResult {
 
 export function UserManage() {
 	const [pageIndex, setPageIndex] = useState<number>(1);
-	const [pageSize, setPageSize] = useState<number>(5);
+	const [pageSize, setPageSize] = useState<number>(10);
 	const [total, setTotal] = useState<number>(0);
 	const [userList, setUserList] = useState<UserSearchResult[]>();
 	const [refreshNum, setRefreshNum] = useState<number>(0);

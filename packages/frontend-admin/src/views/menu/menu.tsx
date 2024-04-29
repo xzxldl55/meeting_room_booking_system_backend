@@ -1,7 +1,8 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import './menu.css';
 import { Menu as AntdMenu, MenuProps } from 'antd';
 import { router } from '../../index';
+import { MENU_PATH } from '../../const';
 
 const items: MenuProps['items'] = [
 	{
@@ -23,30 +24,49 @@ const items: MenuProps['items'] = [
 ];
 
 const menuClick: MenuProps['onClick'] = ({ key }) => {
+	let path = '';
 	switch (key) {
 		case '1':
-			router.navigate('/');
+			path = MENU_PATH.MEETING_ROOM_MANAGE;
 			break;
 		case '2':
-			router.navigate('/');
+			path = MENU_PATH.BOOKING_MANAGE;
 			break;
 		case '3':
-			router.navigate('/user_manage');
+			path = MENU_PATH.USER_MANAGE
 			break;
 		case '4':
-			router.navigate('/');
+			path = MENU_PATH.STATISTICS;
 			break;
 		default:
 			break;
 	}
+	router.navigate('/' + path);
 };
 
 export function Menu() {
+	const location = useLocation();
+
+	const getSelectKey = () => {
+		switch (location.pathname) {
+			case MENU_PATH.MEETING_ROOM_MANAGE:
+				return ['1'];
+			case MENU_PATH.BOOKING_MANAGE:
+				return ['2'];
+			case MENU_PATH.USER_MANAGE:
+				return ['3'];
+			case MENU_PATH.STATISTICS:
+				return ['4'];
+			default:
+				return ['1'];
+		}
+	}
+
 	return (
 		<div id="menu-container">
 			<div className="menu-area">
 				<AntdMenu
-					defaultSelectedKeys={['1']}
+					defaultSelectedKeys={getSelectKey()}
 					items={items}
 					onClick={menuClick}
 				/>
