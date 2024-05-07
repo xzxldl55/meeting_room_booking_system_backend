@@ -3,9 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "pnpm -C ./packages/tools build & -C ./packages/frontend-admin start & pnpm -C./packages/frontend-user start & pnpm -C ./packages/server start:dev"
+    "server": "pnpm -r --filter=\"./packages/server\" run start:dev",
+    "admin": "pnpm -r --filter=\"./packages/frontend-admin\" run start",
+    "user": "pnpm -r --filter=\"./packages/frontend-user\" run start",
+    "ui": "pnpm run admin && pnpm run user"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }

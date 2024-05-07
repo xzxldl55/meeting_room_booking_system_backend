@@ -1,4 +1,5 @@
 import { axiosInstance } from 'tools';
+import { SearchMeetingRoom } from '../views/meeting_room_list/MeetingRoomList';
 
 export interface LoginUser {
 	username: string;
@@ -61,4 +62,10 @@ export interface UserInfo {
 
 export async function updateUserInfo(data: UserInfo) {
 	return await axiosInstance.post('/user/update', data);
+}
+
+export async function searchMeetingRoomList(params: SearchMeetingRoom & { pageIndex: number; pageSize: number }) {
+	return await axiosInstance.get('/meeting-room/list', {
+		params,
+	});
 }

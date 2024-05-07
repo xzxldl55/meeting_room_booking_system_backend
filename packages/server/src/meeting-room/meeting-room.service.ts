@@ -52,6 +52,7 @@ export class MeetingRoomService {
     name?: string,
     equipment?: string,
     capacity?: number,
+    location?: string,
   ) {
     if (pageIndex < 1) {
       throw new Error('页码必须大于0');
@@ -69,6 +70,9 @@ export class MeetingRoomService {
     }
     if (capacity) {
       condition.capacity = capacity;
+    }
+    if (location) {
+      condition.location = Like(`%${location}%`);
     }
 
     const [meetingRooms, total] = await this.repository.findAndCount({
