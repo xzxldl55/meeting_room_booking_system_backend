@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
+import { Between, EntityManager, Like } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { MeetingRoom } from 'src/meeting-room/entities/meeting-room.entity';
-import { Booking } from './entities/booking.entity';
+import { Booking, BookingStatus } from './entities/booking.entity';
 
 @Injectable()
 export class BookingService {
+  // 导入 entity 管理器可以查询任意数据库表
   @InjectEntityManager()
   private entityManager: EntityManager;
 
@@ -61,23 +61,169 @@ export class BookingService {
 
     await this.entityManager.save(booking4);
   }
-  create(createBookingDto: CreateBookingDto) {
-    return 'This action adds a new booking';
+
+  async add(createBookingDto: CreateBookingDto, userId: number) {
+    if (createBookingDto.endTime <= createBookingDto.startTime) {
+      throw new BadRequestException('结束时间必须大于开始时间');
+    }
+
+    const meetingRoom = await this.entityManager.findOneBy(MeetingRoom, {
+      id: createBookingDto.meetingRoomId,
+    });
+
+    if (!meetingRoom) {
+      throw new BadRequestException('会议室不存在');
+    }
+
+    const user = await this.entityManager.findOneBy(User, {
+      id: userId,
+    });
+
+    const booking = new Booking();
+    booking.room = meetingRoom;
+    booking.user = user;
+    booking.startTime = new Date(createBookingDto.startTime);
+    booking.endTime = new Date(createBookingDto.endTime);
+    booking.note = createBookingDto.note;
+
+    /**
+     * 检查是否存在时间段冲突
+     * 全包含
+     * 被包含
+     * 包含前半段
+     * 包含后半段
+     */
+    const occupyBooking = await this.entityManager
+      .getRepository(Booking)
+      .createQueryBuilder('booking')
+      .where(
+        'roomId = :roomId and (' +
+          '(startTime <= :startTime and endTime >= :endTime)' + // 全包含
+          'or (startTime >= :startTime and endTime <= :endTime))' + // 被包含
+          'or (startTime <= :startTime and endTime > :startTime and endTime <= :endTime)' + // 包含前半段
+          'or (startTime >= :startTime and startTime < :endTime and endTime >= :endTime)', // 包含后半段
+        {
+          roomId: meetingRoom.id,
+          startTime: booking.startTime,
+          endTime: booking.endTime,
+        },
+      )
+      .getOne();
+
+    console.log(occupyBooking);
+
+    if (occupyBooking) {
+      throw new BadRequestException('该时间段存在冲突');
+    }
+
+    try {
+      await this.entityManager.insert(Booking, booking);
+      return '预约成功';
+    } catch (e) {
+      throw new BadRequestException('预约失败');
+    }
   }
 
-  findAll() {
-    return `This action returns all booking`;
+  async find(
+    pageIndex: number,
+    pageSize: number,
+    username: string,
+    meetingRoomName: string,
+    meetingRoomLocation: string,
+    bookingTimeRangeStart: number,
+    bookingTimeRangeEnd: number,
+  ) {
+    const skipCount = pageSize * (pageIndex - 1);
+
+    const condition: Record<string, any> = {};
+
+    if (username) {
+      condition.user = {
+        username: Like(`%${username}%`),
+      };
+    }
+    if (meetingRoomName) {
+      condition.room = {
+        name: Like(`%${meetingRoomName}%`),
+      };
+    }
+    if (meetingRoomLocation) {
+      if (!condition.room) {
+        condition.room = {};
+      }
+      condition.room.location = Like(`%${meetingRoomLocation}%`);
+    }
+    if (bookingTimeRangeStart) {
+      condition.startTime = Between(
+        new Date(bookingTimeRangeStart),
+        new Date(bookingTimeRangeEnd ?? 1000 * 60 * 60 + bookingTimeRangeStart), // 未传截止时间默认是开始时间 1 小时后
+      );
+    }
+
+    const [list, total] = await this.entityManager.findAndCount(Booking, {
+      select: {
+        user: {
+          id: true,
+          username: true,
+          nickName: true,
+          headPic: true,
+        },
+      },
+      where: condition,
+      relations: {
+        user: true,
+        room: true,
+      },
+      skip: skipCount,
+      take: pageSize,
+    });
+
+    return {
+      list,
+      total,
+      pageCount: Math.ceil(total / pageSize),
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} booking`;
+  async apply(id: number) {
+    await this.entityManager.update(
+      Booking,
+      {
+        id,
+      },
+      {
+        status: BookingStatus.审批通过,
+      },
+    );
+
+    return '审批通过';
   }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
+  async reject(id: number) {
+    await this.entityManager.update(
+      Booking,
+      {
+        id,
+      },
+      {
+        status: BookingStatus.审批驳回,
+      },
+    );
+
+    return '审批驳回';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} booking`;
+  async unbind(id: number) {
+    await this.entityManager.update(
+      Booking,
+      {
+        id,
+      },
+      {
+        status: BookingStatus.已解除,
+      },
+    );
+
+    return '已解除';
   }
 }

@@ -3,46 +3,62 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   Query,
   DefaultValuePipe,
   ParseIntPipe,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { UpdateBookingDto } from './dto/update-booking.dto';
+import { GetUserParam, RequireLogin } from 'src/decorators';
 
+@RequireLogin()
 @Controller('booking')
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
-  @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingService.create(createBookingDto);
+  @Post('add')
+  add(
+    @Body() createBookingDto: CreateBookingDto,
+    @GetUserParam('userId') userId: number,
+  ) {
+    return this.bookingService.add(createBookingDto, userId);
   }
 
   @Get('list')
   async list(
     @Query('pageIndex', new DefaultValuePipe(1), ParseIntPipe)
     pageIndex: number,
+    @Query('pageSize', new DefaultValuePipe(10), ParseIntPipe) pageSize: number,
+    @Query('username') username: string,
+    @Query('meetingRoomName') meetingRoomName: string,
+    @Query('meetingRoomLocation') meetingRoomLocation: string,
+    @Query('bookingTimeRangeStart') bookingTimeRangeStart: number,
+    @Query('bookingTimeRangeEnd') bookingTimeRangeEnd: number,
   ) {
-    return this.bookingService.findAll();
+    return this.bookingService.find(
+      pageIndex,
+      pageSize,
+      username,
+      meetingRoomName,
+      meetingRoomLocation,
+      bookingTimeRangeStart,
+      bookingTimeRangeEnd,
+    );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookingService.findOne(+id);
+  @Get('apply/:id')
+  async apply(@Param('id') id: number) {
+    return this.bookingService.apply(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingService.update(+id, updateBookingDto);
+  @Get('reject/:id')
+  async reject(@Param('id') id: number) {
+    return this.bookingService.reject(id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookingService.remove(+id);
+  @Get('unbind/:id')
+  async unbind(@Param('id') id: number) {
+    return this.bookingService.unbind(id);
   }
 }
