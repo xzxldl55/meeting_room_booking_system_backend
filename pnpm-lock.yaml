@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      dayjs:
+        specifier: ^1.11.11
+        version: registry.npmmirror.com/dayjs@1.11.11
     devDependencies:
       cross-env:
         specifier: ^7.0.3
@@ -7062,6 +7066,12 @@ packages:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.10.tgz}
     name: dayjs
     version: 1.11.10
+    dev: false
+
+  registry.npmmirror.com/dayjs@1.11.11:
+    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.11.tgz}
+    name: dayjs
+    version: 1.11.11
     dev: false
 
   registry.npmmirror.com/debug@2.6.9:
