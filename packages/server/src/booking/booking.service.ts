@@ -118,8 +118,6 @@ export class BookingService {
       )
       .getOne();
 
-    console.log(occupyBooking);
-
     if (occupyBooking) {
       throw new BadRequestException('该时间段存在冲突');
     }

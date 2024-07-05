@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import { SearchBooking } from '../views/booking_manage/bookingManage';
 import { CreateMeetingRoom } from '../views/meeting_room_manage/createMeetingRoomModal';
 import { SearchMeetingRoom } from '../views/meeting_room_manage/meetingRoomManage';
 import { UpdateMeetingRoom } from '../views/meeting_room_manage/updateMeetingRoomModal';
@@ -55,4 +57,36 @@ export async function updateMeetingRoom(meetingRoom: UpdateMeetingRoom & { id: n
 
 export async function findMeetingRoom(id: number) {
 	return await axiosInstance.get('/meeting-room/' + id);
+}
+
+export async function apply(id: number) {
+	return await axiosInstance.get('/booking/apply/' + id);
+}
+
+export async function reject(id: number) {
+	return await axiosInstance.get('/booking/reject/' + id);
+}
+
+export async function unbind(id: number) {
+	return await axiosInstance.get('/booking/unbind/' + id);
+}
+
+export async function getBookingList(params: SearchBooking & { pageIndex: number; pageSize: number }) {
+	let bookingTimeRangeStart, bookingTimeRangeEnd;
+
+	if (params.rangeStartTime) {
+		bookingTimeRangeStart = dayjs(params.rangeStartTime).format('YYYY-MM-DD HH:mm:ss');
+	}
+
+	if (params.rangeEndTime) {
+		bookingTimeRangeEnd = dayjs(params.rangeEndTime).format('YYYY-MM-DD HH:mm:ss');
+	}
+
+	return await axiosInstance.get('/booking/list', {
+		params: {
+			...params,
+			bookingTimeRangeStart,
+			bookingTimeRangeEnd
+		}
+	})
 }

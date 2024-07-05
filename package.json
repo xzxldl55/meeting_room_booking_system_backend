@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "pnpm -r --filter=\"./packages/server\" run start:dev",
+    "serve": "pnpm -r --filter=\"./packages/server\" run start:dev",
     "admin": "pnpm -r --filter=\"./packages/frontend-admin\" run start",
     "user": "pnpm -r --filter=\"./packages/frontend-user\" run start",
     "ui": "pnpm run admin && pnpm run user"

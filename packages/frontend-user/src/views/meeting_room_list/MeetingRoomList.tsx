@@ -4,6 +4,7 @@ import './meeting_room_list.css';
 import { ColumnsType } from 'antd/es/table';
 import { useForm } from 'antd/es/form/Form';
 import { searchMeetingRoomList } from '../../api/interface';
+import CreateBookingModal from './CreateBookingModal';
 
 export interface SearchMeetingRoom {
 	name: string;
@@ -12,7 +13,7 @@ export interface SearchMeetingRoom {
 	location: string;
 }
 
-interface MeetingRoomSearchResult {
+export interface MeetingRoomSearchResult {
 	id: number;
 	name: string;
 	capacity: number;
@@ -27,8 +28,14 @@ interface MeetingRoomSearchResult {
 export function MeetingRoomList() {
 	const [pageIndex, setPageIndex] = useState<number>(1);
 	const [pageSize, setPageSize] = useState<number>(10);
-
+	const [isOpen, setIsOpen] = useState(false);
+	const [currentBookingRoom, setCurrentBookingRoom] = useState<MeetingRoomSearchResult>();
 	const [meetingRoomResult, setMeetingRoomResult] = useState<Array<MeetingRoomSearchResult>>([]);
+
+	const openModal = (room: MeetingRoomSearchResult) => {
+		setCurrentBookingRoom(room);
+		setIsOpen(true);
+	};
 
 	const columns: ColumnsType<MeetingRoomSearchResult> = useMemo(
 		() => [
@@ -67,10 +74,13 @@ export function MeetingRoomList() {
 			},
 			{
 				title: '操作',
-				render: (_, record) => (
-					<div>
-						<a href="#">预定</a>
-					</div>
+				render: (v) => (
+					<Button
+						type="link"
+						onClick={() => openModal(v)}
+					>
+						预定
+					</Button>
 				),
 			},
 		],
@@ -177,6 +187,13 @@ export function MeetingRoomList() {
 					}}
 				/>
 			</div>
+			<CreateBookingModal
+				isOpen={isOpen}
+				room={currentBookingRoom as MeetingRoomSearchResult}
+				cancelHandler={() => {
+					setIsOpen(false);
+				}}
+			/>
 		</div>
 	);
 }

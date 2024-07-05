@@ -13,7 +13,7 @@ export interface SearchMeetingRoom {
 	equipment: string;
 }
 
-interface MeetingRoom {
+export interface MeetingRoom {
 	id: number;
 	name: string;
 	capacity: number;

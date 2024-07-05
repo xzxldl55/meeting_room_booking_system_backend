@@ -15,20 +15,28 @@ import { MeetingRoomManage } from './views/meeting_room_manage/meetingRoomManage
 import { BookingManage } from './views/booking_manage/bookingManage';
 import { Statistics } from './views/statistics/statistics';
 import { MENU_PATH } from './const';
+import { ConfigProvider } from 'antd';
+import locale from 'antd/locale/zh_CN';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+
+dayjs.locale('zh-cn');
 
 export function Index() {
 	return (
 		<div id="index-container">
-			<div className="header">
-				<h1>会议室预定系统-后管平台</h1>
-				<UserOutlined
-					className="icon"
-					onClick={() => locationTo('/user')}
-				/>
-			</div>
-			<div className="body">
-				<Outlet></Outlet>
-			</div>
+			<ConfigProvider locale={locale}>
+				<div className="header">
+					<h1>会议室预定系统-后管平台</h1>
+					<UserOutlined
+						className="icon"
+						onClick={() => locationTo('/user')}
+					/>
+				</div>
+				<div className="body">
+					<Outlet></Outlet>
+				</div>
+			</ConfigProvider>
 		</div>
 	);
 }
@@ -49,7 +57,7 @@ const routes = [
 				children: [
 					{
 						path: '/',
-						element: <MeetingRoomManage />
+						element: <MeetingRoomManage />,
 					},
 					{
 						path: MENU_PATH.MEETING_ROOM_MANAGE,
@@ -57,11 +65,11 @@ const routes = [
 					},
 					{
 						path: MENU_PATH.BOOKING_MANAGE,
-						element: <BookingManage />
+						element: <BookingManage />,
 					},
 					{
 						path: MENU_PATH.STATISTICS,
-						element: <Statistics />
+						element: <Statistics />,
 					},
 					{
 						path: MENU_PATH.USER_MANAGE,

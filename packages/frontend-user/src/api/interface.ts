@@ -1,5 +1,7 @@
 import { axiosInstance } from 'tools';
 import { SearchMeetingRoom } from '../views/meeting_room_list/MeetingRoomList';
+import { SearchBooking } from '../views/booking_history/BookingHistory';
+import dayjs from 'dayjs'
 
 export interface LoginUser {
 	username: string;
@@ -68,4 +70,28 @@ export async function searchMeetingRoomList(params: SearchMeetingRoom & { pageIn
 	return await axiosInstance.get('/meeting-room/list', {
 		params,
 	});
+}
+
+export async function getBookingList(params: SearchBooking & { pageIndex: number; pageSize: number }) {
+	let bookingTimeRangeStart, bookingTimeRangeEnd;
+
+	if (params.rangeStartTime) {
+		bookingTimeRangeStart = dayjs(params.rangeStartTime).format('YYYY-MM-DD HH:mm:ss');
+	}
+
+	if (params.rangeEndTime) {
+		bookingTimeRangeEnd = dayjs(params.rangeEndTime).format('YYYY-MM-DD HH:mm:ss');
+	}
+
+	return await axiosInstance.get('/booking/list', {
+		params: {
+			...params,
+			bookingTimeRangeStart,
+			bookingTimeRangeEnd
+		}
+	})
+}
+
+export async function unbind(id: number) {
+	return await axiosInstance.get('/booking/unbind/' + id);
 }
