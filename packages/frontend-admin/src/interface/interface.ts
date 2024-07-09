@@ -90,3 +90,21 @@ export async function getBookingList(params: SearchBooking & { pageIndex: number
 		}
 	})
 }
+
+export async function getUserStatistics(rangeStart?: string, rangeEnd?: string) {
+	return await axiosInstance.get('/statistics/user', {
+		params: {
+			rangeStart,
+			rangeEnd
+		}
+	});
+}
+
+export async function getMeetingRoomStatistics(rangeStart?: string, rangeEnd?: string) {
+	return await axiosInstance.get('/statistics/meeting-room', {
+		params: {
+			rangeStart,
+			rangeEnd
+		}
+	});
+}

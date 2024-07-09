@@ -39,7 +39,7 @@ export function BookingHistory() {
 	const [pageIndex, setPageIndex] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [bookingList, setBookingList] = useState<BookingSearchResult[]>([]);
-  const [refreshNum, setRefreshNum] = useState(0);
+	const [refreshNum, setRefreshNum] = useState(0);
 
 	const searchBooking = async () => {
 		const res = await getBookingList({ ...form.getFieldsValue(), username: getUserInfo().username, pageIndex, pageSize });
@@ -69,9 +69,9 @@ export function BookingHistory() {
 	};
 
 	const unbindBooking = async (id: BookingSearchResult['id']) => {
-    await unbind(id);
-    setRefreshNum(refreshNum + 1);
-  };
+		await unbind(id);
+		setRefreshNum(refreshNum + 1);
+	};
 
 	const columns: ColumnsType<BookingSearchResult> = [
 		{
@@ -79,6 +79,13 @@ export function BookingHistory() {
 			dataIndex: 'room',
 			render(_, record) {
 				return record.room.name;
+			},
+		},
+		{
+			title: '预定时间',
+			dataIndex: 'createTime',
+			render(_, record) {
+				return dayjs(new Date(record.createTime)).format('YYYY-MM-DD hh:mm:ss');
 			},
 		},
 		{
@@ -118,13 +125,6 @@ export function BookingHistory() {
 					value: 3,
 				},
 			],
-		},
-		{
-			title: '预定时间',
-			dataIndex: 'createTime',
-			render(_, record) {
-				return dayjs(new Date(record.createTime)).format('YYYY-MM-DD hh:mm:ss');
-			},
 		},
 		{
 			title: '备注',

@@ -1,7 +1,8 @@
 import { axiosInstance } from 'tools';
 import { SearchMeetingRoom } from '../views/meeting_room_list/MeetingRoomList';
 import { SearchBooking } from '../views/booking_history/BookingHistory';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import { CreateBooking } from '../views/meeting_room_list/CreateBookingModal';
 
 export interface LoginUser {
 	username: string;
@@ -87,11 +88,15 @@ export async function getBookingList(params: SearchBooking & { pageIndex: number
 		params: {
 			...params,
 			bookingTimeRangeStart,
-			bookingTimeRangeEnd
-		}
-	})
+			bookingTimeRangeEnd,
+		},
+	});
 }
 
 export async function unbind(id: number) {
 	return await axiosInstance.get('/booking/unbind/' + id);
+}
+
+export async function createBooking(data: CreateBooking) {
+	return await axiosInstance.post('/booking/add', data);
 }

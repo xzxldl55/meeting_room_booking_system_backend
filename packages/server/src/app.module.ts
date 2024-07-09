@@ -17,6 +17,8 @@ import { MeetingRoomModule } from './meeting-room/meeting-room.module';
 import { MeetingRoom } from './meeting-room/entities/meeting-room.entity';
 import { BookingModule } from './booking/booking.module';
 import { Booking } from './booking/entities/booking.entity';
+import { StatisticsController } from './statistics/statistics.controller';
+import { StatisticsService } from './statistics/statistics.service';
 
 @Module({
   imports: [
@@ -63,7 +65,7 @@ import { Booking } from './booking/entities/booking.entity';
     MeetingRoomModule,
     BookingModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, StatisticsController],
   providers: [
     AppService,
     // 全局启用登录守卫
@@ -76,6 +78,7 @@ import { Booking } from './booking/entities/booking.entity';
       provide: APP_GUARD,
       useClass: PermissionGuard,
     },
+    StatisticsService,
   ],
 })
 export class AppModule {}

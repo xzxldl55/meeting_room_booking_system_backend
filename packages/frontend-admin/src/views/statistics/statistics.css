@@ -1,0 +1,9 @@
+.statistics-container {
+  padding: 20px;
+}
+
+.chart-container {
+  width: 600px;
+  height: 400px;
+  padding: 32px;
+}
