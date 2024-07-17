@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -25,6 +26,8 @@ import { Express } from 'express';
 import { extname } from 'path';
 import { storage } from 'src/utils/file-storage';
 import { imageFileExtensions } from 'src/utils/common';
+import { AuthGuard } from '@nestjs/passport';
+import { LoginUserVo } from './user.vo';
 
 @Controller('user')
 export class UserController {
@@ -50,9 +53,12 @@ export class UserController {
     );
   }
 
+  // 使用 passport 实现登录（这里调用 local.strategy.ts 的 validate 函数）
+  //    user 平台使用 passport 登录，admin 平台还是不用
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  async userLogin(@Body() loginUser: LoginUserDto) {
-    return await this.userService.login(loginUser);
+  async userLogin(@GetUserParam() vo: LoginUserVo) {
+    return vo;
   }
 
   @Post('admin/login')

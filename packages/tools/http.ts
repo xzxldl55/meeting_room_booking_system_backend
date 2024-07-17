@@ -1,4 +1,10 @@
-import axios, { AxiosRequestConfig } from 'axios';
+/**
+ * 支持 Oauth2 认证的 Axios 配置
+ * - 自动添加 accessToken
+ * - 自动在认证过期后，重新刷新 token 并重放接口
+ */
+
+import axios, { AxiosRequestConfig, CreateAxiosDefaults } from 'axios';
 import { message } from 'antd';
 import { locationTo } from './utils';
 
@@ -7,84 +13,94 @@ interface PendingTask {
 	resolve: Function;
 }
 
-// 用作刷新 token 后重新发起请求
-let refreshing = false;
-const queue: PendingTask[] = [];
+/**
+ *
+ * @param config 可覆盖 Axios 实例默认配置
+ * @returns AxiosInstance
+ */
+function createAxiosInstance(config: CreateAxiosDefaults = {}) {
+	// 用作刷新 token 后重新发起请求
+	let refreshing = false;
+	const queue: PendingTask[] = [];
 
-const axiosInstance = axios.create({
-	baseURL: 'http://localhost:9999/',
-	timeout: 3000,
-});
-
-const refreshToken = async () => {
-	const refreshToken = localStorage.getItem('refreshToken');
-
-	if (!refreshToken) {
-		locationTo('/login');
-		throw new Error();
-	}
-
-	const res = await axiosInstance.get('/user/refresh', {
-		params: {
-			refreshToken: localStorage.getItem('refreshToken'),
-		},
-		hideErrorMessage: true,
+	const axiosInstance = axios.create({
+		baseURL: 'http://localhost:9999/',
+		timeout: 3000,
+		...config,
 	});
-	localStorage.setItem('refreshToken', res.data.data.refreshToken || '');
-	localStorage.setItem('accessToken', res.data.data.accessToken || '');
 
-	return res;
-};
+	const refreshToken = async () => {
+		const refreshToken = localStorage.getItem('refreshToken');
 
-axiosInstance.interceptors.request.use((config) => {
-	config.headers.Authorization = 'Bearer ' + localStorage.getItem('accessToken');
-	return config;
-});
-axiosInstance.interceptors.response.use(
-	(response) => {
-		return response;
-	},
-	async (error) => {
-		if (!error.response) {
-			return Promise.reject(error);
-		}
-		let { data, config } = error.response;
-
-		if (refreshing && !config.url.includes('/user/refresh')) {
-			//  如果正在刷新 token，此时将请求塞入等待队列，等待 token 刷新后重放接口。如果是 refresh 接口失败了，这里放过去，防止续 token 流程中断
-			//    这里返回一个新的 Promise，即等待原接口被重放后，才会将新 promise 置为 full field 状态，返回数据触发回调
-			return new Promise((resolve) => {
-				queue.push({ config, resolve });
-			});
+		if (!refreshToken) {
+			locationTo('/login');
+			throw new Error();
 		}
 
-		// 非刷新 token 接口，且 code 401
-		if (data.code === 401 && !config.url.includes('/user/refresh')) {
-			refreshing = true;
-			// 刷新 token
-			const res = await refreshToken();
+		const res = await axiosInstance.get('/user/refresh', {
+			params: {
+				refreshToken: localStorage.getItem('refreshToken'),
+			},
+			hideErrorMessage: true,
+		});
+		localStorage.setItem('refreshToken', res.data.data.refreshToken || '');
+		localStorage.setItem('accessToken', res.data.data.accessToken || '');
 
-			refreshing = false;
+		return res;
+	};
 
-			if (res.status === 200) {
-				// 刷新 token 后，重放接口
-				queue.forEach(({ config, resolve }) => {
-					resolve(axiosInstance(config));
-				});
-				queue.splice(0, queue.length); // 重放完毕后将请求队列清空
-				return axiosInstance(config);
-			} else {
-				message.error(res.data?.message || '登陆过期，请重新登录！');
-				setTimeout(() => locationTo('/login'), 1000);
-				return res;
+	axiosInstance.interceptors.request.use((config) => {
+		config.headers.Authorization = 'Bearer ' + localStorage.getItem('accessToken');
+		return config;
+	});
+	axiosInstance.interceptors.response.use(
+		(response) => {
+			return response;
+		},
+		async (error) => {
+			if (!error.response) {
+				return Promise.reject(error);
 			}
-		} else {
-			// 有的接口自行处理错误，这里错误 msg 变为可选
-			!error.response.config?.hideErrorMessage && message.error(data.message || '请求失败');
-			return error.response;
-		}
-	}
-);
+			let { data, config } = error.response;
 
-export default axiosInstance;
-export { axiosInstance };
+			if (refreshing && !config.url.includes('/user/refresh')) {
+				//  如果正在刷新 token，此时将请求塞入等待队列，等待 token 刷新后重放接口。如果是 refresh 接口失败了，这里放过去，防止续 token 流程中断
+				//    这里返回一个新的 Promise，即等待原接口被重放后，才会将新 promise 置为 full field 状态，返回数据触发回调
+				return new Promise((resolve) => {
+					queue.push({ config, resolve });
+				});
+			}
+
+			// 非刷新 token 接口，且 code 401
+			if (data.code === 401 && !config.url.includes('/user/refresh')) {
+				refreshing = true;
+				// 刷新 token
+				const res = await refreshToken();
+
+				refreshing = false;
+
+				if (res.status === 200) {
+					// 刷新 token 后，重放接口
+					queue.forEach(({ config, resolve }) => {
+						resolve(axiosInstance(config));
+					});
+					queue.splice(0, queue.length); // 重放完毕后将请求队列清空
+					return axiosInstance(config);
+				} else {
+					message.error(res.data?.message || '登陆过期，请重新登录！');
+					setTimeout(() => locationTo('/login'), 1000);
+					return res;
+				}
+			} else {
+				// 有的接口自行处理错误，这里错误 msg 变为可选
+				!error.response.config?.hideErrorMessage && message.error(data.message || '请求失败');
+				return error.response;
+			}
+		}
+	);
+
+	return axiosInstance;
+}
+
+export default createAxiosInstance;
+export { createAxiosInstance };

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "serve": "pnpm -r --filter=\"./packages/server\" run start:dev",
-    "admin": "pnpm -r --filter=\"./packages/frontend-admin\" run start",
-    "user": "pnpm -r --filter=\"./packages/frontend-user\" run start",
+    "serve": "pnpm -r --filter=server run start:dev",
+    "admin": "pnpm -r --filter=frontend-admin run start",
+    "user": "pnpm -r --filter=frontend-user run start",
     "ui": "pnpm run admin && pnpm run user"
   },
   "keywords": [],

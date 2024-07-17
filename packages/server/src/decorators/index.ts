@@ -12,7 +12,7 @@ export const RequirePermission = (...permissions: string[]) =>
 
 // 取出用户数据某个字段
 export const GetUserParam = createParamDecorator(
-  (key: string, ctx: ExecutionContext) => {
+  (key: string = '', ctx: ExecutionContext) => {
     const request: Request = ctx.switchToHttp().getRequest();
 
     if (!request.user) {

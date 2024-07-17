@@ -9,6 +9,7 @@ import { Permission } from './entities/permission.entity';
 @Module({
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
   imports: [TypeOrmModule.forFeature([User, Role, Permission])], // 导入 ORM 实体，以便于能够在 service 注入
 })
 export class UserModule {}

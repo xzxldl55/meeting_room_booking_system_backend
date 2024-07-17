@@ -19,6 +19,7 @@ import { BookingModule } from './booking/booking.module';
 import { Booking } from './booking/entities/booking.entity';
 import { StatisticsController } from './statistics/statistics.controller';
 import { StatisticsService } from './statistics/statistics.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { StatisticsService } from './statistics/statistics.service';
     EmailModule,
     MeetingRoomModule,
     BookingModule,
+    AuthModule,
   ],
   controllers: [AppController, StatisticsController],
   providers: [

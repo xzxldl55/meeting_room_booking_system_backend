@@ -186,6 +186,7 @@ export class UserService {
       }, []),
     };
 
+    // 使用 JWT 生成 Token 参与后续接口认证识别
     vo.accessToken = this.jwtService.sign(
       {
         userId: vo.userInfo.id,

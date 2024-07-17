@@ -4,12 +4,14 @@ import { CreateMeetingRoom } from '../views/meeting_room_manage/createMeetingRoo
 import { SearchMeetingRoom } from '../views/meeting_room_manage/meetingRoomManage';
 import { UpdateMeetingRoom } from '../views/meeting_room_manage/updateMeetingRoomModal';
 import { SearchUser } from '../views/user_manage/userManage';
-import { axiosInstance } from 'tools';
+import { createAxiosInstance } from 'tools';
 
 export type PageParams = {
 	pageSize: number;
 	pageIndex: number;
 };
+
+const axiosInstance = createAxiosInstance();
 
 export async function login(username: string, password: string) {
 	return await axiosInstance.post(

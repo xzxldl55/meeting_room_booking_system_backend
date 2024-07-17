@@ -1,15 +1,8 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { JwtUserData } from 'src/user/user.type';
-import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 // 给 express 模块的 Request 类型添加字段 user
 declare module 'express' {
@@ -18,20 +11,15 @@ declare module 'express' {
   }
 }
 
+// 继承 AuthGuard 守卫，实现自定义登录校验守卫
 @Injectable()
-export class LoginGuard implements CanActivate {
+export class LoginGuard extends AuthGuard('jwt') {
   @Inject()
   private reflector: Reflector;
-
-  @Inject(JwtService)
-  private jwtService: JwtService;
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    // 获取 express 的 request 对象
-    const request: Request = context.switchToHttp().getRequest();
-
     // 【获取元数据】使用 nestJs 的 reflector 对象，从目标 Controller【getClass】和 handler 上拿到 require-login 的 metadata
     const requireLogin = this.reflector.getAllAndOverride('require-login', [
       context.getClass(),
@@ -42,28 +30,7 @@ export class LoginGuard implements CanActivate {
       return true;
     }
 
-    // 【检查登录情况】
-    const authorization = request.headers.authorization;
-    if (!authorization) {
-      throw new UnauthorizedException('用户未登录');
-    }
-
-    // 【解析并缓存用户数据】
-    try {
-      const token = authorization.split(' ')[1];
-      const data = this.jwtService.verify<JwtUserData>(token);
-
-      // 从 jwt 中取出用户数据放到 request 里去
-      request.user = {
-        userId: data.userId,
-        username: data.username,
-        roles: data.roles,
-        email: data.email,
-        permissions: data.permissions,
-      };
-      return true;
-    } catch (e) {
-      throw new UnauthorizedException('token 失效，请重新登录');
-    }
+    // 否则需要进行登录校验，这里放行让继承的父级 AuthGuard('jwt') 来做判断
+    return super.canActivate(context);
   }
 }

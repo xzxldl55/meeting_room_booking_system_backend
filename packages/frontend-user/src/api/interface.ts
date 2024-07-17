@@ -1,4 +1,4 @@
-import { axiosInstance } from 'tools';
+import { createAxiosInstance } from 'tools';
 import { SearchMeetingRoom } from '../views/meeting_room_list/MeetingRoomList';
 import { SearchBooking } from '../views/booking_history/BookingHistory';
 import dayjs from 'dayjs';
@@ -8,6 +8,8 @@ export interface LoginUser {
 	username: string;
 	password: string;
 }
+
+const axiosInstance = createAxiosInstance();
 
 export async function login(data: LoginUser) {
 	return await axiosInstance.post('/user/login', data);
