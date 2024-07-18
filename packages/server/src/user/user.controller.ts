@@ -6,6 +6,7 @@ import {
   Get,
   Post,
   Query,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -64,6 +65,35 @@ export class UserController {
   @Post('admin/login')
   async adminLogin(@Body() loginUser: LoginUserDto) {
     return await this.userService.login(loginUser, true);
+  }
+
+  // 使用守卫触发跳转 github 登录
+  @Get('github/login')
+  @UseGuards(AuthGuard('github'))
+  async githubLogin() {}
+
+  // 接收 github 登录回调
+  @Get('callback/github')
+  @UseGuards(AuthGuard('github'))
+  async githubCallback(@Req() req) {
+    return req.user;
+  }
+
+  // Google登录
+  @Get('google/login')
+  @UseGuards(AuthGuard('google'))
+  async googleLogin() {}
+
+  @Get('callback/google')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(@Req() req) {
+    if (!req.user) {
+      return 'No user from googole';
+    }
+    return {
+      message: 'User infomation from google',
+      user: req.user,
+    };
   }
 
   @Get('refresh')

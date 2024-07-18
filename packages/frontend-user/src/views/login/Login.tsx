@@ -32,6 +32,10 @@ export function Login() {
     }
   }, []);
 
+  const handleGithubLogin = () => {
+    window.location.href = 'http://localhost:9999/user/github/login'
+  }
+
   return (
     <div id="login-container">
       <h1>会议室预定系统</h1>
@@ -65,6 +69,11 @@ export function Login() {
         <Form.Item {...layout2}>
           <Button className="btn" type="primary" htmlType="submit">
             登录
+          </Button>
+        </Form.Item>
+        <Form.Item {...layout2}>
+          <Button className="btn" type="primary" onClick={handleGithubLogin}>
+            Github登录
           </Button>
         </Form.Item>
       </Form>

@@ -9,7 +9,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
  * passport-jwt 针对解析不出信息的情况会自动抛出 401 错误
  */
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // 从 request.header.Authorization 取出 token

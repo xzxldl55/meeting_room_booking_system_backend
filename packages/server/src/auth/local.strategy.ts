@@ -10,7 +10,7 @@ import { UserService } from 'src/user/user.service';
 import { LoginUserDto } from 'src/user/user.dto';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   @Inject(UserService)
   private userService: UserService;
 

@@ -13,6 +13,12 @@ import { Role } from './role.entity';
 import md5 from 'src/utils/md5';
 import { Exclude } from 'class-transformer';
 
+export enum LoginType {
+  LOCAL = 0,
+  GITHUB = 1,
+  GOOGLE = 2,
+}
+
 @Entity({
   name: 'user',
 })
@@ -84,6 +90,14 @@ export class User {
     name: 'user_roles',
   })
   roles: Role[];
+
+  @Column({
+    default: LoginType.LOCAL,
+    comment: '登录类型',
+    type: 'enum',
+    enum: LoginType,
+  })
+  loginType: LoginType;
 
   // 插入数据前执行函数（将在 repository/manager save 前执行），对密码进行 hash 算法
   @BeforeInsert()
