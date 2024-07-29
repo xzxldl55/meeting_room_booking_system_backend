@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   Req,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -23,12 +24,12 @@ import { ConfigService } from '@nestjs/config';
 import { GetUserParam, RequireLogin } from 'src/decorators';
 import { ParseIntCnPipe } from 'src/pipes/parse-int-cn.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Express } from 'express';
+import { Express, Response } from 'express';
 import { extname } from 'path';
 import { storage } from 'src/utils/file-storage';
 import { imageFileExtensions } from 'src/utils/common';
 import { AuthGuard } from '@nestjs/passport';
-import { LoginUserVo } from './user.vo';
+import { LoginUserVo, UserInfo } from './user.vo';
 
 @Controller('user')
 export class UserController {
@@ -75,8 +76,50 @@ export class UserController {
   // 接收 github 登录回调
   @Get('callback/github')
   @UseGuards(AuthGuard('github'))
-  async githubCallback(@Req() req) {
-    return req.user;
+  async githubRedirect(@Req() req, @Res() res: Response) {
+    if (!req.user) {
+      throw new BadRequestException('github 登录失败');
+    }
+    const foundUser = await this.userService.findUserDetailById(req.user.id);
+
+    let userInfo: UserInfo;
+
+    // 已注册过
+    if (foundUser) {
+      userInfo = foundUser;
+    } else {
+      // 未注册过
+      const { _json: githubProfile } = req.user;
+
+      // 注册账号
+      const registerUser = await this.userService.registerByGithubInfo(
+        githubProfile.id,
+        githubProfile.name,
+        githubProfile.avatar_url,
+      );
+
+      userInfo = {
+        id: registerUser.id,
+        username: registerUser.username,
+        nickName: registerUser.nickName,
+        email: registerUser.email,
+        phoneNumber: registerUser.phoneNumber,
+        headPic: registerUser.headPic,
+        createTime: registerUser.createTime.getTime(),
+        isFrozen: registerUser.isFrozen,
+        isAdmin: registerUser.isAdmin,
+        roles: [],
+        permissions: [],
+      };
+    }
+
+    const vo = this.userService._genJWTUserInfo(userInfo);
+
+    // 通过 cookie 返回认证数据，然后重定向到登录页面提取 cookie 自动登录
+    res.cookie('userInfo', JSON.stringify(vo.userInfo));
+    res.cookie('accessToken', vo.accessToken);
+    res.cookie('refreshToken', vo.refreshToken);
+    res.redirect('http://localhost:3000/login?loginType=github');
   }
 
   // Google登录
@@ -86,14 +129,53 @@ export class UserController {
 
   @Get('callback/google')
   @UseGuards(AuthGuard('google'))
-  async googleCallback(@Req() req) {
+  async googleRedirect(@Req() req, @Res() res: Response) {
     if (!req.user) {
-      return 'No user from googole';
+      throw new BadRequestException('Google 登录失败');
     }
-    return {
-      message: 'User infomation from google',
-      user: req.user,
-    };
+
+    const foundUser = await this.userService.findUserDetailByEmail(
+      req.user.email,
+    );
+
+    let userInfo: UserInfo;
+
+    // 已注册过
+    if (foundUser) {
+      userInfo = foundUser;
+    } else {
+      // 未注册过
+      const { user: googleProfile } = req;
+
+      // 注册账号
+      const registerUser = await this.userService.registerByGoogleInfo(
+        googleProfile.email,
+        googleProfile.firstName + ' ' + googleProfile.lastName,
+        googleProfile.picture,
+      );
+
+      userInfo = {
+        id: registerUser.id,
+        username: registerUser.username,
+        nickName: registerUser.nickName,
+        email: registerUser.email,
+        phoneNumber: registerUser.phoneNumber,
+        headPic: registerUser.headPic,
+        createTime: registerUser.createTime.getTime(),
+        isFrozen: registerUser.isFrozen,
+        isAdmin: registerUser.isAdmin,
+        roles: [],
+        permissions: [],
+      };
+    }
+
+    const vo = this.userService._genJWTUserInfo(userInfo);
+
+    // 通过 cookie 返回认证数据，然后重定向到登录页面提取 cookie 自动登录
+    res.cookie('userInfo', JSON.stringify(vo.userInfo));
+    res.cookie('accessToken', vo.accessToken);
+    res.cookie('refreshToken', vo.refreshToken);
+    res.redirect('http://localhost:3000/login?loginType=google');
   }
 
   @Get('refresh')

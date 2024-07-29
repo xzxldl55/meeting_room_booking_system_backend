@@ -8,10 +8,16 @@ importers:
 
   .:
     dependencies:
+      cookie:
+        specifier: ^0.6.0
+        version: 0.6.0
       dayjs:
         specifier: ^1.11.11
         version: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.11.tgz
     devDependencies:
+      '@types/cookie':
+        specifier: ^0.6.0
+        version: 0.6.0
       cross-env:
         specifier: ^7.0.3
         version: https://registry.npmmirror.com/cross-env/-/cross-env-7.0.3.tgz
@@ -156,24 +162,15 @@ importers:
       '@nestjs/typeorm':
         specifier: ^10.0.1
         version: https://registry.npmmirror.com/@nestjs/typeorm/-/typeorm-10.0.2.tgz(k2fyu7hxeiljs7npn5e3ccqhbi)
-      '@types/passport-github2':
-        specifier: ^1.2.9
-        version: 1.2.9
-      '@types/passport-google-oauth20':
-        specifier: ^2.0.16
-        version: 2.0.16
-      '@types/passport-jwt':
-        specifier: ^4.0.1
-        version: 4.0.1
-      '@types/passport-local':
-        specifier: ^1.0.38
-        version: 1.0.38
       class-transformer:
         specifier: ^0.5.1
         version: https://registry.npmmirror.com/class-transformer/-/class-transformer-0.5.1.tgz
       class-validator:
         specifier: ^0.14.0
         version: https://registry.npmmirror.com/class-validator/-/class-validator-0.14.1.tgz
+      cookie-parser:
+        specifier: ^1.4.6
+        version: 1.4.6
       multer:
         specifier: 1.4.5-lts.1
         version: https://registry.npmmirror.com/multer/-/multer-1.4.5-lts.1.tgz
@@ -207,6 +204,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: https://registry.npmmirror.com/rxjs/-/rxjs-7.8.1.tgz
+      socks-proxy-agent:
+        specifier: ^8.0.4
+        version: 8.0.4
       typeorm:
         specifier: ^0.3.17
         version: https://registry.npmmirror.com/typeorm/-/typeorm-0.3.20.tgz(mysql2@https://registry.npmmirror.com/mysql2/-/mysql2-3.9.2.tgz)(redis@https://registry.npmmirror.com/redis/-/redis-4.6.13.tgz)(ts-node@https://registry.npmmirror.com/ts-node/-/ts-node-10.9.2.tgz(@types/node@https://registry.npmmirror.com/@types/node/-/node-20.11.28.tgz)(typescript@https://registry.npmmirror.com/typescript/-/typescript-5.4.2.tgz))
@@ -220,6 +220,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.0.0
         version: https://registry.npmmirror.com/@nestjs/testing/-/testing-10.3.3.tgz(gij3kp4bizooesqrkq7zl2xi2e)
+      '@types/cookie-parser':
+        specifier: ^1.4.7
+        version: 1.4.7
       '@types/express':
         specifier: ^4.17.17
         version: https://registry.npmmirror.com/@types/express/-/express-4.17.21.tgz
@@ -232,6 +235,18 @@ importers:
       '@types/node':
         specifier: ^20.3.1
         version: https://registry.npmmirror.com/@types/node/-/node-20.11.28.tgz
+      '@types/passport-github2':
+        specifier: ^1.2.9
+        version: 1.2.9
+      '@types/passport-google-oauth20':
+        specifier: ^2.0.16
+        version: 2.0.16
+      '@types/passport-jwt':
+        specifier: ^4.0.1
+        version: 4.0.1
+      '@types/passport-local':
+        specifier: ^1.0.38
+        version: 1.0.38
       '@types/supertest':
         specifier: ^2.0.12
         version: https://registry.npmmirror.com/@types/supertest/-/supertest-2.0.16.tgz
@@ -2562,6 +2577,12 @@ packages:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==, tarball: https://registry.npmmirror.com/@types/connect/-/connect-3.4.38.tgz}
     version: 3.4.38
 
+  '@types/cookie-parser@1.4.7':
+    resolution: {integrity: sha512-Fvuyi354Z+uayxzIGCwYTayFKocfV7TuDYZClCdIP9ckhvAu/ixDtCB6qx2TT0FKjPLf1f3P/J1rgf6lPs64mw==, tarball: https://registry.npmmirror.com/@types/cookie-parser/-/cookie-parser-1.4.7.tgz}
+
+  '@types/cookie@0.6.0':
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==, tarball: https://registry.npmmirror.com/@types/cookie/-/cookie-0.6.0.tgz}
+
   '@types/cookiejar@https://registry.npmmirror.com/@types/cookiejar/-/cookiejar-2.1.5.tgz':
     resolution: {integrity: sha512-he+DHOWReW0nghN24E1WUqM0efK4kI9oTqDm6XmK8ZPe2djZ90BSNdGnIyCLzCPw7/pogPlGbzI2wHGGmi4O/Q==, tarball: https://registry.npmmirror.com/@types/cookiejar/-/cookiejar-2.1.5.tgz}
     version: 2.1.5
@@ -3139,10 +3160,13 @@ packages:
     version: 4.0.0
     engines: {node: '>=8.9'}
 
-  agent-base@https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz:
+  agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==, tarball: https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz}
-    version: 6.0.2
     engines: {node: '>= 6.0.0'}
+
+  agent-base@7.1.1:
+    resolution: {integrity: sha512-H0TSyFNDMomMNJQBn8wFV5YC/2eJ+VXECwOadZJT554xP6cODZHPX3H9QMQECxvrgiSOP1pHjy1sMWQVYJOUOA==, tarball: https://registry.npmmirror.com/agent-base/-/agent-base-7.1.1.tgz}
+    engines: {node: '>= 14'}
 
   ajv-formats@https://registry.npmmirror.com/ajv-formats/-/ajv-formats-2.1.1.tgz:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==, tarball: https://registry.npmmirror.com/ajv-formats/-/ajv-formats-2.1.1.tgz}
@@ -4066,13 +4090,23 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==, tarball: https://registry.npmmirror.com/convert-source-map/-/convert-source-map-2.0.0.tgz}
     version: 2.0.0
 
-  cookie-signature@https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==, tarball: https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz}
-    version: 1.0.6
+  cookie-parser@1.4.6:
+    resolution: {integrity: sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==, tarball: https://registry.npmmirror.com/cookie-parser/-/cookie-parser-1.4.6.tgz}
+    engines: {node: '>= 0.8.0'}
 
-  cookie@https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz:
+  cookie-signature@1.0.6:
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==, tarball: https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz}
+
+  cookie@0.4.1:
+    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==, tarball: https://registry.npmmirror.com/cookie/-/cookie-0.4.1.tgz}
+    engines: {node: '>= 0.6'}
+
+  cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==, tarball: https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz}
-    version: 0.5.0
+    engines: {node: '>= 0.6'}
+
+  cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==, tarball: https://registry.npmmirror.com/cookie/-/cookie-0.6.0.tgz}
     engines: {node: '>= 0.6'}
 
   cookiejar@https://registry.npmmirror.com/cookiejar/-/cookiejar-2.1.4.tgz:
@@ -4355,6 +4389,22 @@ packages:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==, tarball: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.11.tgz}
     version: 1.11.11
 
+  debug@2.6.9:
+    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, tarball: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@3.2.7:
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, tarball: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
   debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==, tarball: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz}
     engines: {node: '>=6.0'}
@@ -4367,15 +4417,6 @@ packages:
   debug@https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, tarball: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz}
     version: 2.6.9
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
-  debug@https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, tarball: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz}
-    version: 3.2.7
     peerDependencies:
       supports-color: '*'
     peerDependenciesMeta:
@@ -5858,6 +5899,10 @@ packages:
     version: 1.4.0
     engines: {node: '>= 0.10'}
 
+  ip-address@9.0.5:
+    resolution: {integrity: sha512-zHtQzGojZXTwZTHQqra+ETKd4Sn3vgi7uBmlPoXVWZqYvuKmtI0l/VZTjqGmJY9x88GGOaZ9+G9ES8hC4T4X8g==, tarball: https://registry.npmmirror.com/ip-address/-/ip-address-9.0.5.tgz}
+    engines: {node: '>= 12'}
+
   ipaddr.js@https://registry.npmmirror.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==, tarball: https://registry.npmmirror.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz}
     version: 1.9.1
@@ -6640,6 +6685,9 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==, tarball: https://registry.npmmirror.com/js-yaml/-/js-yaml-4.1.0.tgz}
     version: 4.1.0
     hasBin: true
+
+  jsbn@1.1.0:
+    resolution: {integrity: sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==, tarball: https://registry.npmmirror.com/jsbn/-/jsbn-1.1.0.tgz}
 
   jsdom@https://registry.npmmirror.com/jsdom/-/jsdom-16.7.0.tgz:
     resolution: {integrity: sha512-u9Smc2G1USStM+s/x1ru5Sxrl6mPYCbByG1U/hUmqaVsm4tbNyS7CicOSRyuGQYZhTu0h84qkZZQ/I+dzizSVw==, tarball: https://registry.npmmirror.com/jsdom/-/jsdom-16.7.0.tgz}
@@ -9510,9 +9558,21 @@ packages:
     version: 4.0.0
     engines: {node: '>=12'}
 
+  smart-buffer@4.2.0:
+    resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==, tarball: https://registry.npmmirror.com/smart-buffer/-/smart-buffer-4.2.0.tgz}
+    engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
+
   sockjs@https://registry.npmmirror.com/sockjs/-/sockjs-0.3.24.tgz:
     resolution: {integrity: sha512-GJgLTZ7vYb/JtPSSZ10hsOYIvEYsjbNU+zPdIHcUaWVNUEPivzxku31865sSSud0Da0W4lEeOPlmw93zLQchuQ==, tarball: https://registry.npmmirror.com/sockjs/-/sockjs-0.3.24.tgz}
     version: 0.3.24
+
+  socks-proxy-agent@8.0.4:
+    resolution: {integrity: sha512-GNAq/eg8Udq2x0eNiFkr9gRg5bA7PXEWagQdeRX4cPSG+X/8V38v637gim9bjFptMk1QWsCTr0ttrJEiXbNnRw==, tarball: https://registry.npmmirror.com/socks-proxy-agent/-/socks-proxy-agent-8.0.4.tgz}
+    engines: {node: '>= 14'}
+
+  socks@2.8.3:
+    resolution: {integrity: sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==, tarball: https://registry.npmmirror.com/socks/-/socks-2.8.3.tgz}
+    engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
 
   source-list-map@https://registry.npmmirror.com/source-list-map/-/source-list-map-2.0.1.tgz:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==, tarball: https://registry.npmmirror.com/source-list-map/-/source-list-map-2.0.1.tgz}
@@ -9574,9 +9634,8 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==, tarball: https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.0.3.tgz}
 
-  sprintf-js@https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.0.3.tgz:
-    resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==, tarball: https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.0.3.tgz}
-    version: 1.0.3
+  sprintf-js@1.1.3:
+    resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==, tarball: https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.1.3.tgz}
 
   sqlstring@https://registry.npmmirror.com/sqlstring/-/sqlstring-2.3.3.tgz:
     resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==, tarball: https://registry.npmmirror.com/sqlstring/-/sqlstring-2.3.3.tgz}
@@ -11068,7 +11127,7 @@ snapshots:
       '@babel/traverse': https://registry.npmmirror.com/@babel/traverse/-/traverse-7.24.0.tgz
       '@babel/types': https://registry.npmmirror.com/@babel/types/-/types-7.24.0.tgz
       convert-source-map: https://registry.npmmirror.com/convert-source-map/-/convert-source-map-2.0.0.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       gensync: https://registry.npmmirror.com/gensync/-/gensync-1.0.0-beta.2.tgz
       json5: https://registry.npmmirror.com/json5/-/json5-2.2.3.tgz
       semver: 6.3.1
@@ -11150,7 +11209,7 @@ snapshots:
       '@babel/core': https://registry.npmmirror.com/@babel/core/-/core-7.24.0.tgz
       '@babel/helper-compilation-targets': https://registry.npmmirror.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.23.6.tgz
       '@babel/helper-plugin-utils': https://registry.npmmirror.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.24.0.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       lodash.debounce: https://registry.npmmirror.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz
       resolve: https://registry.npmmirror.com/resolve/-/resolve-1.22.8.tgz
     transitivePeerDependencies:
@@ -11161,7 +11220,7 @@ snapshots:
       '@babel/core': https://registry.npmmirror.com/@babel/core/-/core-7.24.0.tgz
       '@babel/helper-compilation-targets': https://registry.npmmirror.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.23.6.tgz
       '@babel/helper-plugin-utils': https://registry.npmmirror.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.24.0.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       lodash.debounce: https://registry.npmmirror.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz
       resolve: https://registry.npmmirror.com/resolve/-/resolve-1.22.8.tgz
     transitivePeerDependencies:
@@ -12120,7 +12179,7 @@ snapshots:
       '@babel/helper-split-export-declaration': https://registry.npmmirror.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.22.6.tgz
       '@babel/parser': https://registry.npmmirror.com/@babel/parser/-/parser-7.24.0.tgz
       '@babel/types': https://registry.npmmirror.com/@babel/types/-/types-7.24.0.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       globals: https://registry.npmmirror.com/globals/-/globals-11.12.0.tgz
     transitivePeerDependencies:
       - supports-color
@@ -13480,6 +13539,12 @@ snapshots:
     dependencies:
       '@types/node': 16.18.89
 
+  '@types/cookie-parser@1.4.7':
+    dependencies:
+      '@types/express': 4.17.21
+
+  '@types/cookie@0.6.0': {}
+
   '@types/cookiejar@https://registry.npmmirror.com/@types/cookiejar/-/cookiejar-2.1.5.tgz': {}
 
   '@types/eslint-scope@https://registry.npmmirror.com/@types/eslint-scope/-/eslint-scope-3.7.7.tgz':
@@ -13784,7 +13849,7 @@ snapshots:
       '@typescript-eslint/scope-manager': https://registry.npmmirror.com/@typescript-eslint/scope-manager/-/scope-manager-5.62.0.tgz
       '@typescript-eslint/type-utils': https://registry.npmmirror.com/@typescript-eslint/type-utils/-/type-utils-5.62.0.tgz(eslint@8.57.0)(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
       '@typescript-eslint/utils': https://registry.npmmirror.com/@typescript-eslint/utils/-/utils-5.62.0.tgz(eslint@8.57.0)(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       eslint: 8.57.0
       graphemer: https://registry.npmmirror.com/graphemer/-/graphemer-1.4.0.tgz
       ignore: https://registry.npmmirror.com/ignore/-/ignore-5.3.1.tgz
@@ -13829,7 +13894,7 @@ snapshots:
       '@typescript-eslint/scope-manager': https://registry.npmmirror.com/@typescript-eslint/scope-manager/-/scope-manager-5.62.0.tgz
       '@typescript-eslint/types': https://registry.npmmirror.com/@typescript-eslint/types/-/types-5.62.0.tgz
       '@typescript-eslint/typescript-estree': https://registry.npmmirror.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.62.0.tgz(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       eslint: 8.57.0
     optionalDependencies:
       typescript: https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz
@@ -13863,7 +13928,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': https://registry.npmmirror.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.62.0.tgz(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
       '@typescript-eslint/utils': https://registry.npmmirror.com/@typescript-eslint/utils/-/utils-5.62.0.tgz(eslint@8.57.0)(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       eslint: 8.57.0
       tsutils: https://registry.npmmirror.com/tsutils/-/tsutils-3.21.0.tgz(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
     optionalDependencies:
@@ -13891,7 +13956,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': https://registry.npmmirror.com/@typescript-eslint/types/-/types-5.62.0.tgz
       '@typescript-eslint/visitor-keys': https://registry.npmmirror.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.62.0.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       globby: https://registry.npmmirror.com/globby/-/globby-11.1.0.tgz
       is-glob: https://registry.npmmirror.com/is-glob/-/is-glob-4.0.3.tgz
       semver: 7.6.0
@@ -14083,9 +14148,15 @@ snapshots:
       loader-utils: https://registry.npmmirror.com/loader-utils/-/loader-utils-2.0.4.tgz
       regex-parser: https://registry.npmmirror.com/regex-parser/-/regex-parser-2.3.0.tgz
 
-  agent-base@https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz:
+  agent-base@6.0.2:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+
+  agent-base@7.1.1:
+    dependencies:
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -14363,7 +14434,7 @@ snapshots:
 
   argparse@https://registry.npmmirror.com/argparse/-/argparse-1.0.10.tgz:
     dependencies:
-      sprintf-js: https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.0.3.tgz
+      sprintf-js: 1.0.3
 
   argparse@https://registry.npmmirror.com/argparse/-/argparse-2.0.1.tgz: {}
 
@@ -14767,7 +14838,7 @@ snapshots:
     dependencies:
       bytes: https://registry.npmmirror.com/bytes/-/bytes-3.1.2.tgz
       content-type: https://registry.npmmirror.com/content-type/-/content-type-1.0.5.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
       depd: https://registry.npmmirror.com/depd/-/depd-2.0.0.tgz
       destroy: https://registry.npmmirror.com/destroy/-/destroy-1.2.0.tgz
       http-errors: https://registry.npmmirror.com/http-errors/-/http-errors-2.0.0.tgz
@@ -15117,7 +15188,7 @@ snapshots:
       accepts: https://registry.npmmirror.com/accepts/-/accepts-1.3.8.tgz
       bytes: https://registry.npmmirror.com/bytes/-/bytes-3.0.0.tgz
       compressible: https://registry.npmmirror.com/compressible/-/compressible-2.0.18.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
       on-headers: https://registry.npmmirror.com/on-headers/-/on-headers-1.0.2.tgz
       safe-buffer: 5.1.2
       vary: https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz
@@ -15157,9 +15228,18 @@ snapshots:
 
   convert-source-map@https://registry.npmmirror.com/convert-source-map/-/convert-source-map-2.0.0.tgz: {}
 
-  cookie-signature@https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz: {}
+  cookie-parser@1.4.6:
+    dependencies:
+      cookie: 0.4.1
+      cookie-signature: 1.0.6
 
-  cookie@https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz: {}
+  cookie-signature@1.0.6: {}
+
+  cookie@0.4.1: {}
+
+  cookie@0.5.0: {}
+
+  cookie@0.6.0: {}
 
   cookiejar@https://registry.npmmirror.com/cookiejar/-/cookiejar-2.1.4.tgz: {}
 
@@ -15428,6 +15508,14 @@ snapshots:
 
   dayjs@https://registry.npmmirror.com/dayjs/-/dayjs-1.11.11.tgz: {}
 
+  debug@2.6.9:
+    dependencies:
+      ms: 2.0.0
+
+  debug@3.2.7:
+    dependencies:
+      ms: 2.1.3
+
   debug@4.3.4:
     dependencies:
       ms: 2.1.2
@@ -15435,10 +15523,6 @@ snapshots:
   debug@https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz:
     dependencies:
       ms: 2.0.0
-
-  debug@https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz:
-    dependencies:
-      ms: 2.1.3
 
   debug@https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz:
     dependencies:
@@ -15553,7 +15637,7 @@ snapshots:
   detect-port-alt@https://registry.npmmirror.com/detect-port-alt/-/detect-port-alt-1.1.6.tgz:
     dependencies:
       address: https://registry.npmmirror.com/address/-/address-1.2.2.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
     transitivePeerDependencies:
       - supports-color
 
@@ -15976,7 +16060,7 @@ snapshots:
 
   eslint-import-resolver-node@https://registry.npmmirror.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.9.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz
+      debug: 3.2.7
       is-core-module: https://registry.npmmirror.com/is-core-module/-/is-core-module-2.13.1.tgz
       resolve: https://registry.npmmirror.com/resolve/-/resolve-1.22.8.tgz
     transitivePeerDependencies:
@@ -15984,7 +16068,7 @@ snapshots:
 
   eslint-module-utils@https://registry.npmmirror.com/eslint-module-utils/-/eslint-module-utils-2.8.1.tgz(@typescript-eslint/parser@https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.62.0.tgz(eslint@8.57.0)(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz))(eslint-import-resolver-node@https://registry.npmmirror.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.9.tgz)(eslint@8.57.0):
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz
+      debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.62.0.tgz(eslint@8.57.0)(typescript@https://registry.npmmirror.com/typescript/-/typescript-4.9.5.tgz)
       eslint: 8.57.0
@@ -16014,7 +16098,7 @@ snapshots:
       array.prototype.findlastindex: https://registry.npmmirror.com/array.prototype.findlastindex/-/array.prototype.findlastindex-1.2.4.tgz
       array.prototype.flat: https://registry.npmmirror.com/array.prototype.flat/-/array.prototype.flat-1.3.2.tgz
       array.prototype.flatmap: https://registry.npmmirror.com/array.prototype.flatmap/-/array.prototype.flatmap-1.3.2.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz
+      debug: 3.2.7
       doctrine: https://registry.npmmirror.com/doctrine/-/doctrine-2.1.0.tgz
       eslint: 8.57.0
       eslint-import-resolver-node: https://registry.npmmirror.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.9.tgz
@@ -16316,8 +16400,8 @@ snapshots:
       body-parser: https://registry.npmmirror.com/body-parser/-/body-parser-1.20.1.tgz
       content-disposition: https://registry.npmmirror.com/content-disposition/-/content-disposition-0.5.4.tgz
       content-type: https://registry.npmmirror.com/content-type/-/content-type-1.0.5.tgz
-      cookie: https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz
-      cookie-signature: https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz
+      cookie: 0.5.0
+      cookie-signature: 1.0.6
       debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
       depd: https://registry.npmmirror.com/depd/-/depd-2.0.0.tgz
       encodeurl: https://registry.npmmirror.com/encodeurl/-/encodeurl-1.0.2.tgz
@@ -16352,9 +16436,9 @@ snapshots:
       body-parser: https://registry.npmmirror.com/body-parser/-/body-parser-1.20.2.tgz
       content-disposition: https://registry.npmmirror.com/content-disposition/-/content-disposition-0.5.4.tgz
       content-type: https://registry.npmmirror.com/content-type/-/content-type-1.0.5.tgz
-      cookie: https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz
-      cookie-signature: https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      cookie: 0.5.0
+      cookie-signature: 1.0.6
+      debug: 2.6.9
       depd: https://registry.npmmirror.com/depd/-/depd-2.0.0.tgz
       encodeurl: https://registry.npmmirror.com/encodeurl/-/encodeurl-1.0.2.tgz
       escape-html: https://registry.npmmirror.com/escape-html/-/escape-html-1.0.3.tgz
@@ -16472,7 +16556,7 @@ snapshots:
 
   finalhandler@https://registry.npmmirror.com/finalhandler/-/finalhandler-1.2.0.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
       encodeurl: https://registry.npmmirror.com/encodeurl/-/encodeurl-1.0.2.tgz
       escape-html: https://registry.npmmirror.com/escape-html/-/escape-html-1.0.3.tgz
       on-finished: https://registry.npmmirror.com/on-finished/-/on-finished-2.4.1.tgz
@@ -16910,8 +16994,8 @@ snapshots:
   http-proxy-agent@https://registry.npmmirror.com/http-proxy-agent/-/http-proxy-agent-4.0.1.tgz:
     dependencies:
       '@tootallnate/once': https://registry.npmmirror.com/@tootallnate/once/-/once-1.1.2.tgz
-      agent-base: https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      agent-base: 6.0.2
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -16937,8 +17021,8 @@ snapshots:
 
   https-proxy-agent@https://registry.npmmirror.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz:
     dependencies:
-      agent-base: https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      agent-base: 6.0.2
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -17058,6 +17142,11 @@ snapshots:
       side-channel: https://registry.npmmirror.com/side-channel/-/side-channel-1.0.6.tgz
 
   interpret@https://registry.npmmirror.com/interpret/-/interpret-1.4.0.tgz: {}
+
+  ip-address@9.0.5:
+    dependencies:
+      jsbn: 1.1.0
+      sprintf-js: 1.1.3
 
   ipaddr.js@https://registry.npmmirror.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz: {}
 
@@ -17332,7 +17421,7 @@ snapshots:
 
   istanbul-lib-source-maps@https://registry.npmmirror.com/istanbul-lib-source-maps/-/istanbul-lib-source-maps-4.0.1.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       istanbul-lib-coverage: https://registry.npmmirror.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.2.tgz
       source-map: https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz
     transitivePeerDependencies:
@@ -18153,6 +18242,8 @@ snapshots:
   js-yaml@https://registry.npmmirror.com/js-yaml/-/js-yaml-4.1.0.tgz:
     dependencies:
       argparse: https://registry.npmmirror.com/argparse/-/argparse-2.0.1.tgz
+
+  jsbn@1.1.0: {}
 
   jsdom@https://registry.npmmirror.com/jsdom/-/jsdom-16.7.0.tgz:
     dependencies:
@@ -21139,7 +21230,7 @@ snapshots:
 
   send@https://registry.npmmirror.com/send/-/send-0.18.0.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
       depd: https://registry.npmmirror.com/depd/-/depd-2.0.0.tgz
       destroy: https://registry.npmmirror.com/destroy/-/destroy-1.2.0.tgz
       encodeurl: https://registry.npmmirror.com/encodeurl/-/encodeurl-1.0.2.tgz
@@ -21169,7 +21260,7 @@ snapshots:
     dependencies:
       accepts: https://registry.npmmirror.com/accepts/-/accepts-1.3.8.tgz
       batch: https://registry.npmmirror.com/batch/-/batch-0.6.1.tgz
-      debug: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz
+      debug: 2.6.9
       escape-html: https://registry.npmmirror.com/escape-html/-/escape-html-1.0.3.tgz
       http-errors: https://registry.npmmirror.com/http-errors/-/http-errors-1.6.3.tgz
       mime-types: https://registry.npmmirror.com/mime-types/-/mime-types-2.1.35.tgz
@@ -21277,11 +21368,26 @@ snapshots:
 
   slash@https://registry.npmmirror.com/slash/-/slash-4.0.0.tgz: {}
 
+  smart-buffer@4.2.0: {}
+
   sockjs@https://registry.npmmirror.com/sockjs/-/sockjs-0.3.24.tgz:
     dependencies:
       faye-websocket: https://registry.npmmirror.com/faye-websocket/-/faye-websocket-0.11.4.tgz
       uuid: https://registry.npmmirror.com/uuid/-/uuid-8.3.2.tgz
       websocket-driver: https://registry.npmmirror.com/websocket-driver/-/websocket-driver-0.7.4.tgz
+
+  socks-proxy-agent@8.0.4:
+    dependencies:
+      agent-base: 7.1.1
+      debug: 4.3.4
+      socks: 2.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  socks@2.8.3:
+    dependencies:
+      ip-address: 9.0.5
+      smart-buffer: 4.2.0
 
   source-list-map@https://registry.npmmirror.com/source-list-map/-/source-list-map-2.0.1.tgz: {}
 
@@ -21319,7 +21425,7 @@ snapshots:
 
   spdy-transport@https://registry.npmmirror.com/spdy-transport/-/spdy-transport-3.0.0.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       detect-node: https://registry.npmmirror.com/detect-node/-/detect-node-2.1.0.tgz
       hpack.js: https://registry.npmmirror.com/hpack.js/-/hpack.js-2.1.6.tgz
       obuf: https://registry.npmmirror.com/obuf/-/obuf-1.1.2.tgz
@@ -21330,7 +21436,7 @@ snapshots:
 
   spdy@https://registry.npmmirror.com/spdy/-/spdy-4.0.2.tgz:
     dependencies:
-      debug: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz
+      debug: 4.3.4
       handle-thing: https://registry.npmmirror.com/handle-thing/-/handle-thing-2.0.1.tgz
       http-deceiver: https://registry.npmmirror.com/http-deceiver/-/http-deceiver-1.2.7.tgz
       select-hose: https://registry.npmmirror.com/select-hose/-/select-hose-2.0.0.tgz
@@ -21338,10 +21444,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  sprintf-js@1.0.3:
-    optional: true
+  sprintf-js@1.0.3: {}
 
-  sprintf-js@https://registry.npmmirror.com/sprintf-js/-/sprintf-js-1.0.3.tgz: {}
+  sprintf-js@1.1.3: {}
 
   sqlstring@https://registry.npmmirror.com/sqlstring/-/sqlstring-2.3.3.tgz: {}
 

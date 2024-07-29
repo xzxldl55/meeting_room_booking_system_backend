@@ -28,7 +28,6 @@ export function UserInfoUpdate() {
       const {
         data: { data, code },
       } = await getUserInfo();
-      console.log(data);
 
       if (code !== 200) {
         return message.error('请求用户数据失败！');

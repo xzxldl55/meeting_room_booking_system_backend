@@ -20,12 +20,14 @@ import { Booking } from './booking/entities/booking.entity';
 import { StatisticsController } from './statistics/statistics.controller';
 import { StatisticsService } from './statistics/statistics.service';
 import { AuthModule } from './auth/auth.module';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'src/.env',
+      // ConfigModule 会采取合并策略，合并两个配置文件，但当出现相同 key 时，会优先使用前面的文件的值（So，上线时删除.dev.env只保留需要的即可）
+      envFilePath: [join(__dirname, '.dev.env'), join(__dirname, '.env')],
     }),
     TypeOrmModule.forRootAsync({
       useFactory(configService: ConfigService) {

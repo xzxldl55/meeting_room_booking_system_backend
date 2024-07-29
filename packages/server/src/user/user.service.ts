@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { LoginType, User } from './entities/user.entity';
 import { Repository, Like } from 'typeorm';
 import {
   LoginUserDto,
@@ -20,7 +20,7 @@ import { EmailService } from 'src/email/email.service';
 import { Role } from './entities/role.entity';
 import { Permission } from './entities/permission.entity';
 import md5 from 'src/utils/md5';
-import { LoginUserVo, UserDetailVo } from './user.vo';
+import { LoginUserVo, UserInfo } from './user.vo';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtUserData } from './user.type';
@@ -109,6 +109,33 @@ export class UserService {
     }
   }
 
+  async registerByGithubInfo(id: number, username: string, headPic: string) {
+    const user = new User();
+    user.id = id;
+    user.username = username + Math.random().toString().slice(2, 8);
+    user.headPic = headPic;
+    user.nickName = username;
+    user.loginType = LoginType.GITHUB;
+    user.isAdmin = false;
+    user.password = Math.random().toString().slice(2, 8);
+    user.email = ''; // github 登录进来的没有 email 信息，默认置为空值，用户登录后自行修改
+
+    return this.userRepository.save(user);
+  }
+
+  async registerByGoogleInfo(email: string, nickName: string, headPic: string) {
+    const newUser = new User();
+    newUser.email = email;
+    newUser.nickName = nickName;
+    newUser.headPic = headPic;
+    newUser.password = '';
+    newUser.username = email + Math.random().toString().slice(2, 10);
+    newUser.loginType = LoginType.GOOGLE;
+    newUser.isAdmin = false;
+
+    return this.userRepository.save(newUser);
+  }
+
   async captcha(
     address: string,
     prefix: string,
@@ -150,6 +177,7 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         username: loginUser.username,
+        loginType: LoginType.LOCAL,
         isAdmin,
       },
       relations: ['roles', 'roles.permissions'], // 级联查询 roles 和 roles.permissions
@@ -163,9 +191,7 @@ export class UserService {
       throw new HttpException('密码错误', HttpStatus.BAD_REQUEST);
     }
 
-    const vo = new LoginUserVo();
-
-    vo.userInfo = {
+    const userInfo: UserInfo = {
       id: user.id,
       username: user.username,
       nickName: user.nickName,
@@ -185,6 +211,14 @@ export class UserService {
         return arr;
       }, []),
     };
+
+    return this._genJWTUserInfo(userInfo);
+  }
+
+  _genJWTUserInfo(userInfo: UserInfo) {
+    const vo = new LoginUserVo();
+
+    vo.userInfo = userInfo;
 
     // 使用 JWT 生成 Token 参与后续接口认证识别
     vo.accessToken = this.jwtService.sign(
@@ -262,26 +296,70 @@ export class UserService {
   }
 
   async findUserDetailById(userId: number) {
-    try {
-      const user = await this.userRepository.findOneBy({
-        id: userId,
-      });
+    const user = await this.userRepository.findOneBy({
+      id: userId,
+    });
 
-      const detailVo = new UserDetailVo();
-      detailVo.id = user.id;
-      detailVo.username = user.username;
-      detailVo.nickName = user.nickName;
-      detailVo.email = user.email;
-      detailVo.phoneNumber = user.phoneNumber;
-      detailVo.headPic = user.headPic;
-      detailVo.createTime = user.createTime;
-      detailVo.isFrozen = user.isFrozen;
-      detailVo.email = user.email;
-
-      return detailVo;
-    } catch (e) {
-      return '未查询到该用户信息';
+    if (!user) {
+      return;
     }
+
+    const detailVo: UserInfo = {
+      id: user.id,
+      username: user.username,
+      nickName: user.nickName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      headPic: user.headPic,
+      createTime: user.createTime.getTime(),
+      isFrozen: user.isFrozen,
+      isAdmin: user.isAdmin,
+      roles: user?.roles?.map((v) => v.name) || [],
+      permissions:
+        user?.roles?.reduce((arr, item) => {
+          item.permissions.forEach((permission) => {
+            if (arr.indexOf(permission) === -1) {
+              arr.push(permission);
+            }
+          });
+          return arr;
+        }, []) || [],
+    };
+
+    return detailVo;
+  }
+
+  async findUserDetailByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({
+      email,
+    });
+
+    if (!user) {
+      return;
+    }
+
+    const detailVo: UserInfo = {
+      id: user.id,
+      username: user.username,
+      nickName: user.nickName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      headPic: user.headPic,
+      createTime: user.createTime.getTime(),
+      isFrozen: user.isFrozen,
+      isAdmin: user.isAdmin,
+      roles: user.roles.map((v) => v.name),
+      permissions: user.roles.reduce((arr, item) => {
+        item.permissions.forEach((permission) => {
+          if (arr.indexOf(permission) === -1) {
+            arr.push(permission);
+          }
+        });
+        return arr;
+      }, []),
+    };
+
+    return detailVo;
   }
 
   async updatePassword(passwordDto: UpdateUserPasswordDto) {

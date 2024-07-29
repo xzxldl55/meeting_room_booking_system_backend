@@ -7,6 +7,7 @@ import { FormatResponseInterceptor } from './interceptors/format-response.interc
 import { InvokeRecordInterceptor } from './interceptors/invoke-record.interceptor';
 import { CustomExceptionFilter } from './filters/custom-exception.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as CookieParse from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -34,6 +35,9 @@ async function bootstrap() {
   app.useStaticAssets('uploads', {
     prefix: '/uploads',
   });
+
+  // 启用 cookieParse
+  app.use(CookieParse());
 
   // 开启 swagger 文档服务
   // const config = new DocumentBuilder()

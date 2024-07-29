@@ -1,3 +1,6 @@
+/**
+ * JWT认证自动解析
+ */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
