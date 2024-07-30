@@ -8,6 +8,7 @@ import { InvokeRecordInterceptor } from './interceptors/invoke-record.intercepto
 import { CustomExceptionFilter } from './filters/custom-exception.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as CookieParse from 'cookie-parser';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -24,6 +25,9 @@ async function bootstrap() {
 
   // 全局开启日志记录
   app.useGlobalInterceptors(new InvokeRecordInterceptor());
+
+  // 把 winston 的 logger 设置为 Nest 的默认 Logger
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   // 全局开启异常处理过滤器，标准化异常处理
   app.useGlobalFilters(new CustomExceptionFilter());

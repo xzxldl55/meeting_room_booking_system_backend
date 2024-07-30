@@ -102,6 +102,8 @@ export class UserService {
     try {
       // 利用 ORM 保存用户到数据库
       await this.userRepository.save(newUser);
+
+      await this.redisService.del(`captcha_${user.email}`);
       return '注册成功';
     } catch (e) {
       this.logger.error(e, UserService);
@@ -383,6 +385,9 @@ export class UserService {
 
     try {
       await this.userRepository.save(foundUser);
+      await this.redisService.del(
+        `update_password_captcha_${passwordDto.email}`,
+      );
       return '修改成功';
     } catch (e) {
       this.logger.error(e, UserService);
@@ -409,6 +414,7 @@ export class UserService {
 
     try {
       await this.userRepository.save(foundUser);
+      await this.redisService.del(`update_user_captcha_${email}`);
       return '用户信息修改成功';
     } catch (e) {
       this.logger.error(e, UserService);

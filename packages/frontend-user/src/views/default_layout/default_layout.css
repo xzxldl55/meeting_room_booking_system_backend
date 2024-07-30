@@ -10,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
+  align-items: center;
 }
 #index-container h1 {
   margin: 0;
@@ -21,4 +22,11 @@
 }
 #index-container .body {
   flex: 1;
+}
+
+.header-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

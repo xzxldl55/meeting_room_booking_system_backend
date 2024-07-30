@@ -10,3 +10,11 @@ export function getUserInfo () {
     return JSON.parse(userInfo);
   }
 }
+
+export function syncUserInfo(newInfo: Record<string, any>) {
+  const userInfo = getUserInfo();
+
+  console.log({ ...userInfo, ...newInfo })
+
+  return localStorage.setItem('userInfo', JSON.stringify({ ...userInfo, ...newInfo }));
+}

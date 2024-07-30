@@ -14,9 +14,9 @@ import md5 from 'src/utils/md5';
 import { Exclude } from 'class-transformer';
 
 export enum LoginType {
-  LOCAL = 0,
-  GITHUB = 1,
-  GOOGLE = 2,
+  LOCAL = '0',
+  GITHUB = '1',
+  GOOGLE = '2',
 }
 
 @Entity({
