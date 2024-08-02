@@ -1,6 +1,6 @@
 import { Button, Form, Input, Table, message, Image, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './userManage.css';
 import { freezeUser, searchUsers } from '../../interface/interface';
 import { useForm } from 'antd/es/form/Form';
@@ -53,12 +53,12 @@ export function UserManage() {
 		setPageIndex(1);
 		dealSearch();
 	};
-	const changePage = useCallback((pageIndex: number, pageSize: number) => {
+	const changePage = (pageIndex: number, pageSize: number) => {
 		setPageIndex(pageIndex);
 		setPageSize(pageSize);
-	}, []);
+	};
 
-	const freeze = useCallback(async (id: string) => {
+	const freeze = async (id: string) => {
 		const res = await freezeUser(id);
 
 		const { data } = res.data;
@@ -68,7 +68,7 @@ export function UserManage() {
 		} else {
 			message.error(data.message || '冻结失败');
 		}
-	}, []);
+	};
 
 	const columns: ColumnsType<UserSearchResult> = useMemo(
 		() => [

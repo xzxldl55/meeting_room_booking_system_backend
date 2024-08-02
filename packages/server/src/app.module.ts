@@ -79,6 +79,7 @@ import 'winston-daily-rotate-file';
           // new winston.transports.File({
           //   filename: `${process.cwd()}/log.log`,
           // }),
+          // 在文件系统按天保存日志
           new winston.transports.DailyRotateFile({
             level: configService.get('winston_log_level'),
             dirname: configService.get('winston_log_dirname'),
@@ -86,12 +87,19 @@ import 'winston-daily-rotate-file';
             datePattern: configService.get('winston_log_date_pattern'),
             maxSize: configService.get('winston_log_max_size'),
           }),
+          // 在 Console 显示日志
           new winston.transports.Console({
             format: winston.format.combine(
               winston.format.timestamp(),
               utilities.format.nestLike(),
             ),
           }),
+          // 如果有单独的日志服务，还可以添加一个 http 上传到对应日志服务上
+          // new winston.transports.Http({
+          //   host: 'localhost',
+          //   port: 3002,
+          //   path: '/log',
+          // }),
         ],
       }),
       inject: [ConfigService],

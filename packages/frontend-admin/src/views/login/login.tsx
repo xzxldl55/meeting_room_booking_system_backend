@@ -1,6 +1,5 @@
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import './login.css';
-import { useCallback } from 'react';
 import { login } from '../../interface/interface';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +15,7 @@ const layout1 = {
 
 export function Login() {
 	const navigate = useNavigate();
-	const onFinish = useCallback(async (values: LoginUser) => {
+	const onFinish = async (values: LoginUser) => {
 		const res = await login(values.username, values.password);
 		const { data, message: msg } = res.data;
 		if (res.status === 201 || res.status === 200) {
@@ -29,7 +28,7 @@ export function Login() {
 		} else {
 			message.error(msg || '系统繁忙，稍后再试。');
 		}
-	}, []);
+	};
 
 	return (
 		<div id="login-container">

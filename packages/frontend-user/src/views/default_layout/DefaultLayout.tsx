@@ -2,6 +2,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import './default_layout.css';
 import { getUserInfo } from '../../utils';
+import { useEffect } from 'react';
 
 export function DefaultLayout() {
 	const navigate = useNavigate();
@@ -11,6 +12,12 @@ export function DefaultLayout() {
 	};
 
 	const userInfo = getUserInfo();
+
+	useEffect(() => {
+		if (!userInfo) {
+			navigate('/login');
+		}
+	}, []);
 
 	return (
 		<div id="index-container">

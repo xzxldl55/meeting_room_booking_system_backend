@@ -1,7 +1,6 @@
 import { Form, Input, InputNumber, Modal, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import TextArea from 'antd/es/input/TextArea';
-import { useCallback } from 'react';
 import { createMeetingRoom } from '../../interface/interface';
 
 interface CreateMeetingRoomModalProps {
@@ -25,7 +24,7 @@ const layout = {
 export function CreateMeetingRoomModal(props: CreateMeetingRoomModalProps) {
 	const [form] = useForm();
 
-	const handleOk = useCallback(function () {
+	const handleOk = function () {
 		form.validateFields()
 			.then(async (values: CreateMeetingRoom) => {
 				values.equipment = values.equipment || '';
@@ -43,7 +42,7 @@ export function CreateMeetingRoomModal(props: CreateMeetingRoomModalProps) {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, []);
+	};
 
 	return (
 		<Modal

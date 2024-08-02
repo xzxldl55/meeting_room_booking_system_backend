@@ -1,7 +1,7 @@
-import { Button, Form, Input, InputNumber, Modal, message } from 'antd';
+import { Form, Input, InputNumber, Modal, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import TextArea from 'antd/es/input/TextArea';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { findMeetingRoom, updateMeetingRoom } from '../../interface/interface';
 
 interface UpdateMeetingRoomModalProps {
@@ -25,7 +25,7 @@ export interface UpdateMeetingRoom {
 export function UpdateMeetingRoomModal(props: UpdateMeetingRoomModalProps) {
 	const [form] = useForm<UpdateMeetingRoom>();
 
-	const handleOk = useCallback(() => {
+	const handleOk = () => {
 		form.validateFields()
 			.then(async (values: UpdateMeetingRoom) => {
 				values.description = values.description || '';
@@ -41,7 +41,7 @@ export function UpdateMeetingRoomModal(props: UpdateMeetingRoomModalProps) {
         }
 			})
 			.catch((e) => {});
-	}, []);
+	}
 
 	useEffect(() => {
 		async function query() {

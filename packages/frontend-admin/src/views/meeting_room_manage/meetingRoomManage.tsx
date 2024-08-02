@@ -2,7 +2,7 @@ import './meetingRoomManage.css';
 import { Badge, Form, Button, Input, message, Popconfirm, InputNumber } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Table, { ColumnsType } from 'antd/es/table';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { deleteMeetingRoom, getMeetingRoomList } from '../../interface/interface';
 import { CreateMeetingRoomModal } from './createMeetingRoomModal';
 import { UpdateMeetingRoomModal } from './updateMeetingRoomModal';
@@ -34,13 +34,13 @@ export function MeetingRoomManage() {
 	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 	const [updateId, setUpdateId] = useState<number>();
 
-	const handleDelete = useCallback(async (id: number) => {
+	const handleDelete = async (id: number) => {
 		try {
 			await deleteMeetingRoom(id);
 			message.success('删除成功');
 			setSearchRandomNum(Math.random());
 		} catch (e) {}
-	}, []);
+	}
 
 	const columns: ColumnsType<MeetingRoom> = useMemo(
 		() => [
@@ -120,7 +120,7 @@ export function MeetingRoomManage() {
 		[]
 	);
 
-	const searchMeetingRoom = useCallback(async (values: SearchMeetingRoom) => {
+	const searchMeetingRoom = async (values: SearchMeetingRoom) => {
 		const res = await getMeetingRoomList({
 			...values,
 			pageIndex,
@@ -142,7 +142,7 @@ export function MeetingRoomManage() {
 				}))
 			);
 		}
-	}, []);
+	}
 
 	const [form] = useForm();
 
@@ -150,10 +150,10 @@ export function MeetingRoomManage() {
 		searchMeetingRoom(form.getFieldsValue());
 	}, [pageIndex, pageSize, searchRandomNum]);
 
-	const changePage = useCallback((pageIndex: number, pageSize: number) => {
+	const changePage = (pageIndex: number, pageSize: number) => {
 		setPageIndex(pageIndex);
 		setPageSize(pageSize);
-	}, []);
+	}
 
 	return (
 		<div id="meetingRoomManage-container">
